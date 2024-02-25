@@ -20,40 +20,50 @@ nav {
     height: 100%;
     left:0;
     background: white;
-    width: 10rem;
+    width: clamp(6rem,10vw,10rem);
+    
     overflow: hidden;
-    transition: width 0.2 linear;
     box-shadow: 0 20px 35px rgba(0,0,0,0.1);
 
 }
 
 li{
     list-style-type:none;
+   
 }
 
+.logo-wrapper {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
 
-
-
+.logout-wrapper {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    padding: 0px;
+}
 
 img {
     
     width: 40%;
 }
 
-.logo img{
-    width: 7rem;
-    height: auto;
 
+.wrapper {
+    position: relative;
+    height: 100%;
 }
 
-
+.nav-wrapper {
+    height: 100%;
+}
 
 .nav-frame {
-    margin: 0;
-    align-items: center;
-    display: flex;
-    height: 100%;
-    flex-direction: column;
+
+    margin: 0px;
+  
 }
 
 ul{
@@ -71,13 +81,13 @@ ul{
 a{
     position: relative;
     color: black;
-    font-size: 1rem;
+ 
     display: flex;
-    
+    padding: 15px;
     width: 100%;
     height: auto;
-    padding: 15px;
-    gap: 5px;
+
+    
     
     flex-direction: column;
     justify-content: center;
@@ -86,13 +96,20 @@ a{
   
 }
 
+.logo {
+    
+    width: 80%;
+    aspect-ratio: 1;
+    
+}
+
 
 .nav-item {
     position:relative;
     top: 12px;
     font-family: sans-serif;
     font-weight:700;
-    font-size: 0.8rem;
+    font-size: clamp(0.1rem,1vh,2rem);
 }
 
 a:hover{
