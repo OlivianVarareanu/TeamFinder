@@ -4,14 +4,14 @@ body, html{
     overflow: hidden;
 }
 
-.wrapper {
-    display: flex;
-    flex-direction: row;
-}
+
 
 .content {
-    margin-left: clamp(6rem,10vw,10rem);
-    padding-left: 0px;
+    
     height: 100%;
     width: 100%;
+}
+
+.window {
+    display: flex;
 }

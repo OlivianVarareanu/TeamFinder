@@ -1,0 +1,126 @@
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotateX(0);
+    }
+}
+
+
+
+
+* {
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    
+}
+
+.logo {
+    width: 200px;
+    height: 200px;
+    margin-right: 60px;
+    margin-bottom: 40px;
+    animation: transitionIn 1.20s;
+}
+
+.InputContent {
+    position: absolute;
+    width: 100%;
+    max-width: 300px;
+    right: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    animation: transitionIn 0.75s;
+}
+
+.Email,
+.Password {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 300px;
+    height: 45px;
+    padding: 0px 52px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+    margin-bottom: 35px;
+    animation: transitionIn 0.75s;
+    border: none;
+}
+
+.LogInBtn {
+    margin-top: -10px;
+    height: 45px;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 25px;
+    text-align: center;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+    animation: transitionIn 0.75s;
+}
+
+.LogInBtn:hover {
+    background-color: #0056b3;
+}
+
+.createAccount {
+    margin-top: 20px;
+    margin-right: 65px;
+    font-size: 20px;
+    animation: transitionIn 0.75s;
+}
+
+.InterLink {
+    margin-right: 500px;
+    width: 400px;
+    height: 400px;
+}
+.Envelope {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin-top: 254px;
+    margin-right: 260px;
+}
+
+.Lock {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin-top: 330px;
+    margin-right: 260px;
+}
+
+@media (max-width: 960px) {
+    .InterLink {
+        display: none;
+    }
+
+    .wrapper {
+        margin-right: -13rem;
+    }
+}
+
+
+
+
+
