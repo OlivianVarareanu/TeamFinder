@@ -36,8 +36,6 @@
     animation: transitionIn 1.20s;
 }
 
-
-
 .InputContent {
     position: absolute;
     width: 100%;
@@ -67,7 +65,7 @@
 .LogInBtn {
     margin-top: -10px;
     height: 45px;
-    width: 19rem;
+    width: 100%;
     padding: 10px;
     background-color: #007bff;
     color: #fff;
@@ -117,7 +115,9 @@
         display: none;
     }
 
-   
+    .wrapper {
+        margin-right: -13rem;
+    }
 }
 
 
