@@ -64,7 +64,14 @@ export default function Navbar ()
                     </ul>
                 </div> 
         </nav>
+<<<<<<< HEAD
         
+=======
+<<<<<<< HEAD
+        
+=======
+>>>>>>> a92219f0238b8c60ff323f9523b599c935ee3889
+>>>>>>> 7c223e8f4f8e1b8c8c28b63f02cd338d12ae9396
         </>
     )
 }

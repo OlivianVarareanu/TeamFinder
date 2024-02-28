@@ -1,11 +1,36 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import React from 'react';
+=======
+>>>>>>> 7c223e8f4f8e1b8c8c28b63f02cd338d12ae9396
 import React, { useState } from 'react';
+>>>>>>> a92219f0238b8c60ff323f9523b599c935ee3889
 import { Link } from 'react-router-dom';
 import Logo from '/src/assets/Logo.png';
 import InterLink from '/src/assets/ONKVWY0 copy.png';
 import "./SignUp.css"
 
 export default function SignUp (){
+<<<<<<< HEAD
+  return (
+    <div className='wrapper'>
+      <img src={InterLink} alt="InterLink" className="InterLink" />
+
+      
+      <div className='InputContent'>
+        <img src={Logo} alt="Logo" className="logo" />
+        <input className='Email' type='text' placeholder='Email' required />
+        <input className='Password' type='password' placeholder='Password' required />
+        <button className='LogInBtn'>Sign Up</button>
+        <Link to="/login" className="createAccount">Already Signed up?</Link>
+      </div>
+    </div>
+    
+  );
+};
+
+=======
   const [showAdminInputs, setShowAdminInputs] = useState(false);
   const [showEmployeeInputs, setShowEmployeeInputs] = useState(false);
   const [showBackLink, setShowBackLink] = useState(false);
@@ -69,6 +94,7 @@ export default function SignUp (){
     </div>  
   );
 };
+<<<<<<< HEAD
 =======
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -92,3 +118,6 @@ const SignUp = () => {
 
 export default SignUp;
 >>>>>>> 166eceb (resolved navbar)
+=======
+>>>>>>> a92219f0238b8c60ff323f9523b599c935ee3889
+>>>>>>> 7c223e8f4f8e1b8c8c28b63f02cd338d12ae9396

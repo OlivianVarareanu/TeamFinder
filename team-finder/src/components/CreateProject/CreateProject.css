@@ -1,7 +1,11 @@
 .options-container {
     display: flex;
     flex-direction: row;
+<<<<<<< HEAD
     justify-content:center;
+=======
+    justify-content:space-around;
+>>>>>>> 7c223e8f4f8e1b8c8c28b63f02cd338d12ae9396
     align-items: center;
     margin: 0px;
     height: 100%;

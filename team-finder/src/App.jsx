@@ -1,5 +1,5 @@
 
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import {BrowserRouter, Routes, Route, Outlet} from 'react-router-dom'
 import Departments from "./pages/departments/departments"
 import Notifications from "./pages/notifications/notifications"
 import Profile from "./pages/profile/profile"
@@ -16,11 +16,25 @@ function App() {
     <>
     
 
-    <div className="wrapper">
 
+<<<<<<< HEAD
     <div>
     <Navbar/>
     </div>
+=======
+<<<<<<< HEAD
+    
+
+    <div className='window'>
+    
+   
+    <Navbar></Navbar>
+=======
+
+    <Navbar/>
+
+>>>>>>> a92219f0238b8c60ff323f9523b599c935ee3889
+>>>>>>> 7c223e8f4f8e1b8c8c28b63f02cd338d12ae9396
 
     <div className="content">
       
@@ -39,13 +53,24 @@ function App() {
     </div>
     </div>
 
+<<<<<<< HEAD
    
 
+=======
+<<<<<<< HEAD
+   
+
+=======
+>>>>>>> a92219f0238b8c60ff323f9523b599c935ee3889
+>>>>>>> 7c223e8f4f8e1b8c8c28b63f02cd338d12ae9396
 
     </>
   )
 
  
 }
+
+
+
 
 export default App
