@@ -19,8 +19,8 @@ const LogIn = () => {
         <input className='Email' type='text' placeholder='Email'maxLength={35} required />
         <img src={Lock} alt="Lock" className="Lock" />
         <input className='Password' type='password' placeholder='Password' maxLength={35} required />
-        <button className='LogInBtn'>LogIn</button>
-        <Link to="/signup" className="createAccount" >Create your account</Link>
+        <button className='LogInBtn'>Log In</button>
+        <Link to="/projects" className="createAccount" >Create your account</Link>
       </div>
     </div>
   );
