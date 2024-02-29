@@ -1,0 +1,9 @@
+.image-logo {
+    width: 30%;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
