@@ -11,8 +11,8 @@ export default function RoutingComponent() {
 
     return(
     <Routes>
-        <Route path="/login" element={<LogIn/>}/>
-        <Route path="/signin" element={<SignUp/>}/>
+        <Route path="/login" index element={<LogIn/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
         <Route path="*" element={<App/>}/>
     </Routes>
     )

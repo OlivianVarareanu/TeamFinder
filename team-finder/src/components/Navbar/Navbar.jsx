@@ -17,14 +17,14 @@ export default function Navbar ()
                         </li>
 
                         <li>
-                            <Link to="projects" className="anchor">
+                            <Link to="/projects" className="anchor">
                             <img src="/src/assets/project-icon.png"></img>
                             <span className="nav-item">PROJECTS</span>
                             </Link>
                         </li>
 
                         <li>
-                            <Link to="team" className="anchor">
+                            <Link to="/team" className="anchor">
                             <img src="/src/assets/team-icon.png" alt="" />
                             <span className="nav-item">TEAM</span>
                             </Link>
@@ -32,21 +32,21 @@ export default function Navbar ()
                         </li>
 
                         <li>
-                            <Link to="departments" className="anchor">
+                            <Link to="/departments" className="anchor">
                             <img src="/src/assets/department-icon.png" alt="" />
                             <span className="nav-item">DEPARTMENTS</span>
                             </Link>
                         </li>
 
                         <li>
-                            <Link to="notifications" className="anchor">
+                            <Link to="/notifications" className="anchor">
                             <img src="/src/assets/notification-icon.png" alt="" />
                             <span className="nav-item">NOTIFICATIONS</span>
                             </Link>
                         </li>
 
                         <li>
-                            <Link to="profile" className="anchor">
+                            <Link to="/profile" className="anchor">
                             <img src="/src/assets/profile-icon.png" alt="" />
                             <span className="nav-item">PROFILE</span>
                             </Link>
@@ -55,7 +55,7 @@ export default function Navbar ()
 
                         <li>
 
-                        <Link to="login" className="anchor">
+                        <Link to="/login" className="anchor">
                         <img className="logout-icon" src="/src/assets/logout-icon.png" alt="" />
                         <span className="nav-item">LOG OUT</span>
                         </Link>

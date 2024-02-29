@@ -7,9 +7,11 @@ import Lock from '/src/assets/lock-solid (1).svg'
 import './LogIn.css';
 
 
+
 const LogIn = () => {  
 
   return (
+    <>
 
     <div className='wrapper'>
       <img src={InterLink} alt="InterLink" className="InterLink" />
@@ -19,10 +21,14 @@ const LogIn = () => {
         <input className='Email' type='text' placeholder='Email'maxLength={35} required />
         <img src={Lock} alt="Lock" className="Lock" />
         <input className='Password' type='password' placeholder='Password' maxLength={35} required />
+        <Link to="/projects">
         <button className='LogInBtn'>Log In</button>
-        <Link to="/projects" className="createAccount" >Create your account</Link>
+        </Link>
+        <Link to="/signup" className="createAccount" > <p>Create your account</p></Link>
       </div>
     </div>
+
+    </>
   );
 };
 
