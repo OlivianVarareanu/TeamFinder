@@ -99,7 +99,7 @@ export default function SignUp (){
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '/src/assets/team-icon.png'
-import './SignUp.css';
+
 
 const SignUp = () => {
   return (
