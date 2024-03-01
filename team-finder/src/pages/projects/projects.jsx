@@ -5,8 +5,11 @@ import "./projects.css"
 export default function Projects(){
 
     return(<>
-    <div>
+       
+    
     <CreateProject/>
-    </div>
-    </>)
+    
+    </>
+    
+    )
 }
