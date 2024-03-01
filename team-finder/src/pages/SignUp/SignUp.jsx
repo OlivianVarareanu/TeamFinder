@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '/src/assets/team-icon.png'
+import Logo from '/src/assets/Logo.png';
+import InterLink from '/src/assets/ONKVWY0 copy.png';
 import "./SignUp.css"
 
 export default function SignUp (){
   return (
     <div className='wrapper'>
-      <div className='lef-container'>
-      <img src="/src/assets/ONKVWY0 copy.png" alt="" className='image-logo'/>
-      </div>
+      <img src={InterLink} alt="InterLink" className="InterLink" />
 
       
       <div className='InputContent'>
