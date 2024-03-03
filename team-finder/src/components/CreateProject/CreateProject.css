@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+    margin: 0px;
+    height: 100%;
+    font-family: sans-serif;
+    font-weight: 200;
+    font-size: 0.7rem;
+}
+
+.view-projects, .create-project {
+    margin: 0px;
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid black;
+    padding: 3rem;
+}

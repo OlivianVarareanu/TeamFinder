@@ -1,0 +1,114 @@
+.logoSignUp {
+    margin-top: -55px;
+    width: 200px;
+    height: 200px;
+    margin-right: 60px;
+    margin-bottom: 10px;
+    animation: transitionIn 1.20s;
+}
+
+.EmailSignUp {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 300px;
+    height: 45px;
+    padding: 0px 52px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+    margin-bottom: 35px;
+    animation: transitionIn 0.75s;
+    border: none;
+}
+
+.back {
+    margin-top: 20px;
+    margin-right: 195px;
+    margin-bottom: -10px;
+    font-size: 20px;
+    animation: transitionIn 0.75s;
+}
+
+.NameSignUp {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 300px;
+    height: 45px;
+    padding: 0px 52px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+    margin-bottom: 35px;
+    animation: transitionIn 0.75s;
+    border: none;
+}
+
+.PasswordSignUp {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 300px;
+    height: 45px;
+    padding: 0px 52px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+    margin-bottom: 35px;
+    animation: transitionIn 0.75s;
+    border: none;
+}
+
+
+.LogInBtnSignUp {
+    margin-top: -10px;
+    height: 45px;
+    width: 19rem;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 25px;
+    text-align: center;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+    animation: transitionIn 0.75s;
+}
+
+.SignUpbuttons {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.SignUpAdministratorBtn {
+    margin-top: -10px;
+    height: 45px;
+    width: 19rem;
+    padding: 10px;
+    margin-bottom: 35px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 25px;
+    text-align: center;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+    animation: transitionIn 0.75s;
+}
+
+.SignUpEmployeeBtn {
+    margin-top: -10px;
+    height: 45px;
+    width: 19rem;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 25px;
+    text-align: center;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+    animation: transitionIn 0.75s;
+}
