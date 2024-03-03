@@ -16,6 +16,7 @@ export default function Navbar ()
                         <img className="logo-image" src="/src/assets/Logo.png" alt="" />
                         </li>
 
+                        
                         <li>
                             <Link to="/projects" className="anchor">
                             <img src="/src/assets/project-icon.png"></img>
