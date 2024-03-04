@@ -19,12 +19,18 @@ function App() {
     
 
 
+<<<<<<< HEAD
     
 
     <div className='window'>
     
    
     <Navbar></Navbar>
+=======
+
+    <Navbar/>
+
+>>>>>>> a92219f0238b8c60ff323f9523b599c935ee3889
 
     <div className="content">
       
@@ -43,8 +49,11 @@ function App() {
     </div>
     </div>
 
+<<<<<<< HEAD
    
 
+=======
+>>>>>>> a92219f0238b8c60ff323f9523b599c935ee3889
 
     </>
   )
