@@ -12,7 +12,7 @@ export default function Navbar ()
 
                     <ul className="nav-frame">
                         <li className="logo-wrapper">
-                        <img className="logo" src="/src/assets/Logo.png" alt="" />
+                        <img className="logo-image" src="/src/assets/Logo.png" alt="" />
                         </li>
 
                         <li>
@@ -54,16 +54,15 @@ export default function Navbar ()
 
                         <li>
 
-                        <a href="#" className="anchor">
+                        <Link to="/login" className="anchor">
                         <img className="logout-icon" src="/src/assets/logout-icon.png" alt="" />
                         <span className="nav-item">LOG OUT</span>
-                        </a>
+                        </Link>
 
                         </li>         
                     </ul>
                 </div> 
         </nav>
-
         </>
     )
 }
