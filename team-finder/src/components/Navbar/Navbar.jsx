@@ -12,7 +12,7 @@ export default function Navbar ()
 
                     <ul className="nav-frame">
                         <li className="logo-wrapper">
-                        <img className="logo" src="/src/assets/Logo.png" alt="" />
+                        <img className="logo-image" src="/src/assets/Logo.png" alt="" />
                         </li>
 
                         <li>
