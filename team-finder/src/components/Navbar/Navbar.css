@@ -19,11 +19,12 @@ html {
 }
 
 nav {
-    
+    position: absolute;
     display: inline-block;
-    
-    height: 100vh;
-    
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    left:0;
     background: white;
     width: clamp(6rem,10vw,10rem);
     
@@ -53,10 +54,6 @@ li{
 img {
     
     width: 40%;
-}
-
-.logo-image{
-    width: 80%;
 }
 
 
