@@ -1,0 +1,7 @@
+import {withRouter} from 'react-router'
+
+function Foo(props) {
+    props.router.push('/projects');
+}
+
+export default withRouter(Foo);

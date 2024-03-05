@@ -1,11 +1,12 @@
 import Navbar from "./components/Navbar/Navbar"
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import {Routes, Route} from 'react-router-dom'
 import Departments from "./pages/departments/departments"
 import Notifications from "./pages/notifications/notifications"
 import Profile from "./pages/profile/profile"
 import Projects from "./pages/projects/projects"
 import Team from "./pages/team/team"
-import noPage from "./pages/noPage/noPage"
+
+
 
 function App() {
 
