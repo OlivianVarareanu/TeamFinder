@@ -5,7 +5,7 @@ export default function Profile(){
 
     return(<>
         
-    <div className="wrapper">
+    <div>
     <p>Profile</p>
     </div>
     </>)
