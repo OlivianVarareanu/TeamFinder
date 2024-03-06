@@ -114,7 +114,7 @@ ul{
     font-size: clamp(0.1rem,1vh,2rem);
 }
 
-a:hover{
+.anchor:hover{
     
     background: linear-gradient(90deg, rgb(130, 234, 255) 0%, rgba(222,249,255,1) 48%, rgba(255,255,255,1) 100%);
 
