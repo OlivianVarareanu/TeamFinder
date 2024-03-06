@@ -7,12 +7,10 @@ import Lock from '/src/assets/lock-solid (1).svg'
 import './LogIn.css';
 
 
-
 const LogIn = () => {  
 
   return (
     <>
-
 
     <div className='wrapper'>
       <img src={InterLink} alt="InterLink" className="InterLink" />
