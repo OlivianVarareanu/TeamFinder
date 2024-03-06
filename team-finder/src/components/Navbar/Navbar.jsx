@@ -1,10 +1,21 @@
 import "./Navbar.css"
 import {Link} from 'react-router-dom'
+import {Logout} from "./Logout"
 
 export default function Navbar ()
 {
 
-    
+    const handleLogout = async () => {
+        try{
+            await Logout();
+        }
+        catch(error)
+        {
+
+        }
+    }
+
+
     return (
         <>
         
@@ -55,7 +66,7 @@ export default function Navbar ()
 
                         <li>
 
-                        <Link to="/login" className="anchor">
+                        <Link to="/login" className="anchor" onClick={handleLogout}>
                         <img className="logout-icon" src="/src/assets/logout-icon.png" alt="" />
                         <span className="nav-item">LOG OUT</span>
                         </Link>

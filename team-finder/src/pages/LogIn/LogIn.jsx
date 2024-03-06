@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link,Navigate} from 'react-router-dom';
 import Logo from '/src/assets/Logo.png';
@@ -7,13 +7,42 @@ import Envelope from '/src/assets/envelope-solid (1).svg';
 import Lock from '/src/assets/lock-solid (1).svg';
 import './LogIn.css';
 
+
+
+
 const LogIn = () => {
 
   const [isAuth, setIsAuth] = useState(false);
+  
   const [credentials, setCredentials] = useState({
     email: '',
     password: ''
   });
+
+  useEffect( ()=> {
+    const checkAuth = async () => {
+      try{
+        const response = await axios.get('api/user/me',{
+          headers: {
+            "Authorization":`Bearer ${localStorage.getItem('accessToken')}`
+          }
+
+        }
+        )
+  
+        setIsAuth(true);
+      }
+      catch(error){
+          console.log(error);
+      }
+  
+  
+      };
+  
+      checkAuth();
+  
+  },[])
+
 
   const handleChange = (e) => {
     setCredentials({
@@ -26,19 +55,16 @@ const LogIn = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://teamfinderapp.azurewebsites.net/auth/signin', credentials);
+      const response = await axios.post('api/auth/signin', credentials,{withCredentials:true});
       const { accessToken, refreshToken } = response.data.data;
 
       console.log(response.data);
-      // Store the tokens in localStorage or secure cookie for later use
+   
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
 
 
       if (accessToken) {
         setIsAuth(true);
-       
-       
       }
 
       else
