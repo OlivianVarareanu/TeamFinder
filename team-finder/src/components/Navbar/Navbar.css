@@ -88,7 +88,7 @@ ul{
     padding: 15px;
     width: 100%;
     height: auto;
-
+    cursor: pointer;
     
     
     flex-direction: column;

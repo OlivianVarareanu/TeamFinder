@@ -6,6 +6,7 @@ import InterLink from '/src/assets/ONKVWY0 copy.png';
 import Envelope from '/src/assets/envelope-solid (1).svg';
 import Lock from '/src/assets/lock-solid (1).svg';
 import './LogIn.css';
+import api from '../../api/api';
 
 
 
@@ -57,10 +58,12 @@ const LogIn = () => {
     try {
       const response = await axios.post('api/auth/signin', credentials,{withCredentials:true});
       const { accessToken, refreshToken } = response.data.data;
+      
 
       console.log(response.data);
    
       localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken',refreshToken);
 
 
       if (accessToken) {
