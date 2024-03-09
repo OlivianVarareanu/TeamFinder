@@ -5,7 +5,7 @@ import Notifications from "./pages/notifications/notifications"
 import Profile from "./pages/profile/profile"
 import Projects from "./pages/projects/projects"
 import Team from "./pages/team/team"
-import PrivateRoutes from "./auth-logic/privateRoutes"
+import { PrivateRoutes } from "./auth-logic/privateRoutes"
 
 
 function App() {
