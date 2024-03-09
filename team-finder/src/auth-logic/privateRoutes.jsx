@@ -3,6 +3,7 @@ import { Outlet, Navigate } from 'react-router-dom'
 import api from '../api/api';
 
 
+
 export const PrivateRoutes = ({children}) => {
     const[isAuthenticated,setIsAuthenticated]=useState(true);
     const[isLoading,setIsLoading]=useState(true);

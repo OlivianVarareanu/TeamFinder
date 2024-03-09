@@ -1,6 +1,6 @@
 import "./Navbar.css"
 import {Link,useNavigate} from 'react-router-dom'
-import {Logout} from "./Logout"
+import Logout from "./Logout"
 
 export default function Navbar ()
 {

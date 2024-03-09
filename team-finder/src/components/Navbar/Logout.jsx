@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-
-
  const Logout = async() => {
 
     try{
