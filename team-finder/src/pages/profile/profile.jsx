@@ -3,6 +3,7 @@ import "./profile.css"
 import api from "../../api/api";
 import { useEffect, useState } from "react";
 
+
 export default function Profile(){
 
     const[user,setUser]=useState(null);
