@@ -1,10 +1,7 @@
-import Navbar from "../../components/Navbar/Navbar";
 import { useState,useEffect } from "react";
-import api from "../../api/api";
+import api from "../api/api";
 
-
-export default function Notifications(){
-
+export default function fetch_access() {
     const[user,setUser]=useState(null);
 
     
@@ -25,12 +22,5 @@ export default function Notifications(){
         if(!user){
             return <div>Loading...</div>;
         }
-
-    return(<>
-
-    <div>
-    <p>Notifications</p>
-    </div>
-    </>) 
-    
 }
+

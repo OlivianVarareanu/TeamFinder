@@ -1,25 +1,28 @@
 import { useEffect, useState } from 'react'
-import { Outlet, Navigate } from 'react-router-dom'
+import { Outlet, Navigate, useNavigate } from 'react-router-dom'
 import api from '../api/api';
 
 
 
 export const PrivateRoutes = ({children}) => {
-    const[isAuthenticated,setIsAuthenticated]=useState(true);
+    const[isAuthenticated,setIsAuthenticated]=useState(null);
     const[isLoading,setIsLoading]=useState(true);
-    console.log('test');
-
+    
+    const navigate= useNavigate();
     useEffect( ()=> {
 
-        console.log('test2');
+        
         const checkPermissions = async () => {
             try{
                 const response = await api.get('api/user/me');
                 console.log(response);
 
                 if(response.status === 200){
+                    console.log(response);
                     setIsAuthenticated(true);
                 } else {
+                    alert('Please log in');
+                    navigate('/login');
                     setIsAuthenticated(false);
                 }
             } catch(error) {
@@ -30,7 +33,7 @@ export const PrivateRoutes = ({children}) => {
         };
 
         checkPermissions();
-    },[]);
+    },[navigate]);
 
     if(isLoading){
         return <div>-Loading-</div>
