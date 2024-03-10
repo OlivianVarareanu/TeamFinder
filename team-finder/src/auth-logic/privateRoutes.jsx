@@ -21,6 +21,7 @@ export const PrivateRoutes = ({children}) => {
                     console.log(response);
                     setIsAuthenticated(true);
                 } else {
+                    alert('Please log in');
                     navigate('/login');
                     setIsAuthenticated(false);
                 }
