@@ -1,7 +1,84 @@
-.wrapper {
-    height: 100vh;
+.LeftContainerProfile {
+  display: flex;
+
+  flex-direction: column;
 }
 
-.profi {
-    font-size: 100px;
+.ProfileAvatar {
+  margin-top: 50px;
+  margin-left: 100px;
 }
+.UsernameProfile {
+  margin-left: 75px !important;
+}
+
+.GreenSmall {
+  margin-left: 60px;
+  border-radius: 25px;
+  background-color: green;
+  width: 25px;
+  height: 25px;
+}
+.UserAvaiability {
+  margin-left: 100px !important;
+  margin-top: -25px !important;
+}
+.UserEmail {
+  margin-top: 5% !important;
+  margin-left: 30px !important;
+}
+
+.UserEmailExample {
+  margin-top: -31px !important;
+  margin-left: 110px !important;
+}
+
+.UserSkills {
+  margin-top: 5px !important;
+  margin-left: 30px !important;
+}
+.CatCombo {
+  margin-left: 70%;
+}
+.SkillCombo {
+  margin-top: 15px;
+  margin-left: 70%;
+}
+.SelectSkill {
+  margin-bottom: 10px !important;
+  margin-top: -25% !important;
+  margin-left: 70% !important;
+
+}
+
+.SkillLevel {
+  margin-left: 70% !important;
+}
+.SliderLevel {
+  margin-left: 70%;
+}
+.Experience {
+    margin-left: 70% !important;
+}
+.AddSkillBtn {
+    margin-left: 70% !important;
+}
+.LeftContainerProfile {
+  position: relative;
+}
+
+.RightPanel {
+  position: absolute;
+  margin-top: 10%;
+  margin-left: 52%;
+  
+}
+
+.SkillSection {
+  margin-bottom: 20px;
+}
+.MySkillsContainer {
+  max-height: 310px; 
+  overflow-y: auto;
+}
+
