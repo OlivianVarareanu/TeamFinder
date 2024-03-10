@@ -1,8 +1,8 @@
 import Navbar from "../../components/Navbar/Navbar";
 import "./profile.css";
 import api from "../../api/api";
-import { useEffect, useState } from "react";
-import React, { useState } from "react";
+
+import React, { useState ,useEffect} from "react";
 import { Typography, TextField, Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import profileIcon from "../../assets/profile-icon.png";
