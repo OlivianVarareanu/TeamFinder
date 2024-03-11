@@ -58,12 +58,13 @@ const LogIn = () => {
     try {
       const response = await axios.post('api/auth/signin', credentials,{withCredentials:true});
       const { accessToken, refreshToken } = response.data.data;
-      
+      const  user  = response.data.data.user;
 
-      console.log(response.data);
+      console.log(response.data.data.user);
    
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken',refreshToken);
+      localStorage.setItem('user',JSON.stringify(user));
 
 
       if (accessToken) {
@@ -72,10 +73,11 @@ const LogIn = () => {
 
       else
       {
-        alert("Wrong email or password");
+        
       }
       // Redirect sau efectuează alte acțiuni după autentificarea reușită
     } catch (error) {
+      alert("Wrong email or password");
       console.log(error);
     }
   };
