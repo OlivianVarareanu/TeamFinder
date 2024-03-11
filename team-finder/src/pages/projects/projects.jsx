@@ -3,6 +3,7 @@ import CreateProject from "../../components/CreateProject/CreateProject";
 import "./projects.css"
 import { useState,useEffect } from "react";
 import api from "../../api/api";
+import CircularIndeterminate from "../../auth-logic/loading";
 
 
 export default function Projects(){
@@ -25,7 +26,7 @@ export default function Projects(){
         },[]);
 
         if(!user){
-            return <div>Loading...</div>;
+            return CircularIndeterminate();
         }
     
     return(<>

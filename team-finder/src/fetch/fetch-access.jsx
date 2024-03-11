@@ -1,10 +1,11 @@
 import { useState,useEffect } from "react";
 import api from "../api/api";
+import CircularIndeterminate from "../auth-logic/loading";
 
 export default function fetch_access() {
-    const[user,setUser]=useState(null);
 
-    
+    const[user,setUser]=useState(false);
+
     useEffect(()=> {
         const fetchProfile = async () => {
             try {
@@ -20,7 +21,7 @@ export default function fetch_access() {
         },[]);
 
         if(!user){
-            return <div>Loading...</div>;
+            return CircularIndeterminate();
         }
 }
 

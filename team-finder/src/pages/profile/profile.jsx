@@ -9,6 +9,7 @@ import profileIcon from "../../assets/profile-icon.png";
 import Autocomplete from "@mui/material/Autocomplete";
 import Slider from "@mui/material/Slider";
 import "./profile.css";
+import CircularIndeterminate from "../../auth-logic/loading";
 
 export default function Profile() {
   const SkillCategory = [
@@ -157,7 +158,7 @@ export default function Profile() {
   }, []);
 
   if (!user) {
-    return <div>Loading...</div>;
+    return CircularIndeterminate();
   }
 
   return (

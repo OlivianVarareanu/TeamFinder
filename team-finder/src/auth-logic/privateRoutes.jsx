@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Outlet, Navigate, useNavigate } from 'react-router-dom'
 import api from '../api/api';
+import CircularIndeterminate from './loading';
+import "./loading.css";
 
 
 
@@ -36,7 +38,12 @@ export const PrivateRoutes = ({children}) => {
     },[navigate]);
 
     if(isLoading){
-        return <div>-Loading-</div>
+        return (
+        <div className='circular-wrapper'>
+            <CircularIndeterminate/>
+        </div>
+        )
+        
     }
 
     return isAuthenticated? <Outlet/> : <Navigate to="/login" />

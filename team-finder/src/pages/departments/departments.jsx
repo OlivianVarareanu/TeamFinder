@@ -2,6 +2,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import "./departments.css"
 import { useState,useEffect } from "react";
 import api from "../../api/api";
+import CircularIndeterminate from "../../auth-logic/loading";
 
 export default function Departments(){
 
@@ -23,7 +24,7 @@ export default function Departments(){
         },[]);
 
         if(!user){
-            return <div>Loading...</div>;
+            return CircularIndeterminate();
         }
 
     return(<>
