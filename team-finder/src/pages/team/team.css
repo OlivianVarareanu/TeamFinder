@@ -1,0 +1,12 @@
+.users-table,th,td {
+    padding: 1rem;
+    
+}
+
+.wrapper-table {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    
+}

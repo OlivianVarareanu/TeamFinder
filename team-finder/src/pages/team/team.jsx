@@ -1,36 +1,64 @@
 import Navbar from "../../components/Navbar/Navbar";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import api from "../../api/api";
 import CircularIndeterminate from "../../auth-logic/loading";
+import "./team.css";
 
+export default function Team() {
+    const [user, setUser] = useState(null);
+    const [organizationUsers, setOrganizationUsers] = useState([]);
 
-export default function Team(){
-
-    const[user,setUser]=useState(null);
-
-    
-    useEffect(()=> {
+    useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.get('api/user/me',{withCredentials:true});
-                setUser(response.data);
-               
-            }
-            catch(error){
-                console.log('se incarca info');
-            }
-            }
-            fetchProfile();
-        },[]);
+                // Obține informațiile despre utilizatorul actual
+                const responseUser = await api.get('api/user/me', { withCredentials: true });
+                setUser(responseUser.data);
 
-        if(!user){
-            return CircularIndeterminate();
-        }
-    
-    return(<>
-    <div>
-    <p>Team</p>
-    </div>
-    </>
-    )
+                // Obține lista de utilizatori ai organizației
+                const responseOrganizationUsers = await api.get('api/organization/users', { withCredentials: true });
+                setOrganizationUsers(responseOrganizationUsers.data.users);
+                console.log(responseOrganizationUsers.data.users);
+
+                
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchProfile();
+    }, []);
+
+    if (!user) {
+        return CircularIndeterminate();
+    }
+
+    return (
+        <>
+            <div className="wrapper-table">
+
+                {/* Verifică dacă organizationUsers este un array înainte de a apela map() */}
+                {Array.isArray(organizationUsers) && organizationUsers.length > 0 ? (
+                    <table className="users-table">
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Available Hours</th>
+                        <tbody>
+                        {organizationUsers.map((orgUser) => (
+                            <tr key={orgUser.id}>
+                                <td>{orgUser.name} </td>
+                                <td>{orgUser.email}</td> 
+                                <td>{orgUser.availableHours}</td>
+                            </tr>
+                            
+                        ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    CircularIndeterminate()
+                )}
+            </div>
+        </>
+    );
+
 }
