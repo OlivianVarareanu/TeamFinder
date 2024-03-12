@@ -88,6 +88,14 @@ export default function SignUp() {
     });
     const data = await result.json();
 
+    if (result.status===200) {
+      // Handle successful registration
+      console.log('Registration successful');
+      navigate('/projects');
+    } else {
+      console.error('Registration failed');
+    }
+
     
     console.warn("result", data);
   };
