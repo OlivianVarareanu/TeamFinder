@@ -6,7 +6,7 @@ import InterLink from '/src/assets/ONKVWY0 copy.png';
 import Envelope from '/src/assets/envelope-solid (1).svg';
 import Lock from '/src/assets/lock-solid (1).svg';
 import './LogIn.css';
-import api from '../../api/api';
+
 
 
 

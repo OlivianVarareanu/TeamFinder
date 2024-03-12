@@ -21,6 +21,9 @@ export default function SignUp() {
   const location = useLocation();
   const urlParams = new URLSearchParams(location.search);
   const invitationToken = urlParams.get('token');
+
+  let navigate = useNavigate();
+  
   
 
   useEffect(() => {
@@ -30,10 +33,17 @@ export default function SignUp() {
           const response = await axios.get(`/api/token/validate/${invitationToken}`);
           if (response.data.success) {
             setIsValidToken(true);
+
+            
+            
             console.log('e valiid');
-           // setCompanyName(response.data.details.organizationId.name);
+
+            console.log(response);
+         
             companyName.current=response.data.details.organizationId.name;
+
             console.log(companyName.current);
+
           } else {
             setIsValidToken(false);
           }
@@ -48,15 +58,17 @@ export default function SignUp() {
     validateToken();
   }, [invitationToken]);
 
-  let navigate = useNavigate();
+  
+  
 
   const signUpEmployee = async () => {
+    
     const result = await axios.post('/api/auth',{ name, email, password, invitationToken });
     
     if (result.status===200) {
-      // Handle successful registration
+      
       console.log('Registration successful');
-      navigate('/projects');
+      navigate('/login');
     } else {
       console.error('Registration failed');
     }
@@ -88,10 +100,11 @@ export default function SignUp() {
     });
     const data = await result.json();
 
+
     if (result.status===200) {
       // Handle successful registration
       console.log('Registration successful');
-      navigate('/projects');
+      navigate('/login');
     } else {
       console.error('Registration failed');
     }
@@ -165,7 +178,7 @@ export default function SignUp() {
 
       
       
-          <button onClick={signUpAdministrator} className='LogInBtnSignUp'>Sign Up as Administrator</button>
+          <button onClick={signUpAdministrator} className='LogInBtnSignUp'>Sign Up as Employee</button>
     
       
       
