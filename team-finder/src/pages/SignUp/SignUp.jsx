@@ -1,65 +1,81 @@
-import React, { useEffect, useState } from 'react';
-import { Link,Navigate } from 'react-router-dom';
+import React, { useEffect, useState,useRef } from 'react';
+import {useNavigate, Navigate, useLocation, Link } from 'react-router-dom';
 import Logo from '/src/assets/Logo.png';
 import InterLink from '/src/assets/ONKVWY0 copy.png';
-import "./SignUp.css"
+import "./SignUp.css";
 
+import CircularIndeterminate from '../../auth-logic/loading';
+import axios from 'axios';
 
 export default function SignUp() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isValidToken, setIsValidToken] = useState(null);
   const [organizationName, setOrganizationName] = useState("");
   const [hq_address, setHq_address] = useState("");
-  const [isAuthorised,setIsAuthorised] = useState(false);
+  const companyName = useRef ("");
 
-  const [showAdminInputs, setShowAdminInputs] = useState(false);
-  const [showEmployeeInputs, setShowEmployeeInputs] = useState(false);
-  const [showBackLink, setShowBackLink] = useState(false);
 
-  const handleAdminSignUp = () => {
-    setShowAdminInputs(true);
-    setShowEmployeeInputs(false);
-    setShowBackLink(true);
-  };
-
-  const handleEmployeeSignUp = () => {
-    setShowEmployeeInputs(true);
-    setShowAdminInputs(false);
-    setShowBackLink(true);
-  };
-
-  const handleBack = () => {
-    setShowAdminInputs(false);
-    setShowEmployeeInputs(false);
-    setShowBackLink(false);
-  };
-
-   
- 
-
-  const signUpEmployee = async () => {
-    const invitationToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZpdGVySWQiOiI2NWUzNWYxNWEzN2FkODQzYWFhNGFiNjgiLCJvcmdhbml6YXRpb25JZCI6IjY1ZTM1ZjE1YTM3YWQ4NDNhYWE0YWI2NiIsImlhdCI6MTcwOTU3NDc1NCwiZXhwIjoxNzEwMTc5NTU0fQ.QAd6ScHo8fgpud_fp73oiosO0SNByKJLzzncyekZpvA";
-    const item = { invitationToken, name, email, password };
-    console.warn(item);
-    const result = await fetch('api/auth', {
-      method: 'POST',
-      body: JSON.stringify(item),
-      headers: {
-        "Content-Type": 'application/json',
-        "Accept": 'application/json',
-      }
-    });
-
-    const data = await result.json();
-    
-    console.warn("data",data);
-  };
-
+  const location = useLocation();
+  const urlParams = new URLSearchParams(location.search);
+  const invitationToken = urlParams.get('token');
   
 
+  useEffect(() => {
+    const validateToken = async () => {
+      if (invitationToken) {
+        try {
+          const response = await axios.get(`/api/token/validate/${invitationToken}`);
+          if (response.data.success) {
+            setIsValidToken(true);
+            console.log('e valiid');
+           // setCompanyName(response.data.details.organizationId.name);
+            companyName.current=response.data.details.organizationId.name;
+            console.log(companyName.current);
+          } else {
+            setIsValidToken(false);
+          }
+        } catch (error) {
+          console.error('Token validation error:', error);
+          setIsValidToken(false);
+        }
+      }
+      setIsLoading(false);
+
+    };
+    validateToken();
+  }, [invitationToken]);
+
+  let navigate = useNavigate();
+
+  const signUpEmployee = async () => {
+    const result = await axios.post('/api/auth',{ name, email, password, invitationToken });
+    
+    if (result.status===200) {
+      // Handle successful registration
+      console.log('Registration successful');
+      navigate('/projects');
+    } else {
+      console.error('Registration failed');
+    }
+  };
+
+
+  if (isLoading) {
+    return <CircularIndeterminate />;
+  }
+
+
+
+  if (isValidToken==='error') {
+    console.log('token error')
+    return <Navigate to="/login" />;
+  }
+
   const signUpAdministrator = async () => {
-    // const invitationToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZpdGVySWQiOiI2NWUzNWYxNWEzN2FkODQzYWFhNGFiNjgiLCJvcmdhbml6YXRpb25JZCI6IjY1ZTM1ZjE1YTM3YWQ4NDNhYWE0YWI2NiIsImlhdCI6MTcwOTU3NDc1NCwiZXhwIjoxNzEwMTc5NTU0fQ.QAd6ScHo8fgpud_fp73oiosO0SNByKJLzzncyekZpvA";
+
     const item = { name, email, password, hq_address,organizationName };
     console.warn("item",item);
     const result = await fetch('api/auth/admin', {
@@ -72,106 +88,95 @@ export default function SignUp() {
     });
     const data = await result.json();
 
+    if (result.status===200) {
+      // Handle successful registration
+      console.log('Registration successful');
+      navigate('/projects');
+    } else {
+      console.error('Registration failed');
+    }
+
     
     console.warn("result", data);
   };
 
-  return (
+  return(
+
+   isValidToken ? 
     <div className='wrapper'>
+      <img src={InterLink} alt="InterLink" className="InterLink" />
+      <div className='InputContent'>
+        <img src={Logo} alt="Logo" className="logoSignUp" />
+        <p className='employment-message'>EMPLOYMENT INVITATION FROM</p> 
+
+        <h1 className='company-name'>{companyName.current.toUpperCase()}</h1>
+        <input onChange={(e) => setName(e.target.value)} className='NameSignUp' type='text' placeholder='Name' required value={name} />
+        <input onChange={(e) => setEmail(e.target.value)} className='EmailSignUp' type='text' placeholder='Email' required value={email} />
+        <input onChange={(e) => setPassword(e.target.value)} className='PasswordSignUp' type='password' placeholder='Password' required value={password} />
+        <button onClick={signUpEmployee} className='LogInBtnSignUp'>Sign Up</button>
+        <Link to="/login" className="createAccount">Already Signed up?</Link>
+      </div>
+    </div>
+
+  :
+
+     <div className='wrapper'>
       <img src={InterLink} alt="InterLink" className="InterLink" />
 
       <div className='InputContent'>
         <img src={Logo} alt="Logo" className="logoSignUp" />
-        {!showAdminInputs && !showEmployeeInputs && (
-          <div className='SignUpbuttons'>
-            <button className='SignUpAdministratorBtn' onClick={handleAdminSignUp}>SignUp as Administrator</button>
-            <button className='SignUpEmployeeBtn' onClick={handleEmployeeSignUp}>SignUp as Employee</button>
-          </div>
-        )}
-        {(showAdminInputs || showEmployeeInputs) && (
-          <>
-            {showEmployeeInputs && (
-              <>
-                <input onChange={(e) => setName(e.target.value)}
-                  className='NameSignUp'
-                  type='text'
-                  placeholder='Name'
-                  required
-                  value={name}
-                />
-                <input onChange={(e) => setEmail(e.target.value)}
-                  className='EmailSignUp'
-                  type='text'
-                  placeholder='Email'
-                  required
-                  value={email}
-                />
-                <input onChange={(e) => setPassword(e.target.value)}
-                  className='PasswordSignUp'
-                  type='password'
-                  placeholder='Password'
-                  required
-                  value={password}
-                />
-              </>
-            )}
-            {showAdminInputs && (
-              <>
-                <input onChange={(e) => setName(e.target.value)}
-                  className='NameSignUp'
-                  type='text'
-                  placeholder='Name'
-                  required
-                  value={name}
-                />
-                <input onChange={(e) => setEmail(e.target.value)}
-                  className='EmailSignUp'
-                  type='text'
-                  placeholder='Email'
-                  required
-                  value={email}
-                />
-                <input onChange={(e) => setPassword(e.target.value)}
-                  className='PasswordSignUp'
-                  type='password'
-                  placeholder='Password'
-                  required
-                  value={password}
-                />
-                <input onChange={(e) => setOrganizationName(e.target.value)}
-                  className='NameSignUp'
-                  type='text'
-                  placeholder='Organization Name'
-                  required
-                  value={organizationName}
-                />
-                <input onChange={(e) => setHq_address(e.target.value)}
-                  className='NameSignUp'
-                  type='text'
-                  placeholder='Headquarter Address'
-                  required
-                  value={hq_address}
-                />
-              </>
-            )}
 
-            {isAuthorised?
-            <Navigate to="/login"/>:""}
-            {showAdminInputs && (
-              <button onClick={signUpAdministrator} className='LogInBtnSignUp'>Sign Up as Administrator</button>
-            )} 
-            {showEmployeeInputs && (
-              <button onClick={signUpEmployee} className='LogInBtnSignUp'>Sign Up as Employee</button>
-            )}
-            
-            {showBackLink && (
-              <Link className='back' onClick={handleBack}>Back</Link>
-            )}
-           
-          </>
-        )}
-        <Link to="/login" className="createAccount">Already Signed up?</Link>
+        <input onChange={(e) => setName(e.target.value)}
+            className='NameSignUp'
+            type='text'
+            placeholder='Name'
+            required
+            value={name}
+          />
+          <input onChange={(e) => setEmail(e.target.value)}
+            className='EmailSignUp'
+            type='text'
+            placeholder='Email'
+            required
+            value={email}
+          />
+          <input onChange={(e) => setPassword(e.target.value)}
+            className='PasswordSignUp'
+            type='password'
+            placeholder='Password'
+            required
+            value={password}
+          />
+          <input onChange={(e) => setOrganizationName(e.target.value)}
+            className='NameSignUp'
+            type='text'
+            placeholder='Organization Name'
+            required
+            value={organizationName}
+          />
+          <input onChange={(e) => setHq_address(e.target.value)}
+            className='NameSignUp'
+            type='text'
+            placeholder='Headquarter Address'
+            required
+            value={hq_address}
+          />
+
+
+      
+      
+          <button onClick={signUpAdministrator} className='LogInBtnSignUp'>Sign Up as Administrator</button>
+    
+      
+      
+          <Link className='back'to={"/login"} >Back</Link>
+      
+
       </div>
     </div>
-  );
-};
+      
+ 
+
+)
+
+  }
