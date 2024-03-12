@@ -128,6 +128,13 @@ export default function Profile() {
   const [selectedExperience, setSelectedExperience] = useState(1);
   const [mySkills, setMySkills] = useState([]);
 
+  const handleDeleteSkill = (index) => {
+    const updatedSkills = [...mySkills];
+    updatedSkills.splice(index, 1);
+    setMySkills(updatedSkills);
+  };
+
+
   const handleAddSkill = () => {
     if (selectedSkill) {
       const newSkill = {
@@ -193,6 +200,14 @@ export default function Profile() {
             <Typography variant="body1">
               Experience: {skill.experience}
             </Typography>
+            <Button
+            sx={{ width: 80, height: 30 }}
+            onClick={handleDeleteSkill}
+            className="DeleteSkillBtn"
+            variant="contained"
+          >
+           Delete
+          </Button>
             <Typography variant="body1">---------------------------</Typography>
           </div>
         ))}

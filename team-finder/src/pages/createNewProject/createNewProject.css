@@ -1,0 +1,25 @@
+.Footer {
+    position: fixed; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; 
+    border: solid black 4px;
+    width: 90%;
+    height: 25%;
+    bottom: 0; 
+}
+
+.AddEmployeeBtn {
+    margin-bottom: 60px !important;
+}
+
+.ProjectTitleLabel {
+    padding: 20px;
+}
+.TitleInput {
+    margin-top: -20px !important;
+    padding: 20px !important;
+}
+
+
+

@@ -1,35 +1,35 @@
-import "./CreateProject.css"
-import { useState } from "react"
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import "./CreateProject.css";
+import { useState } from "react";
 
-export default function CreateProject ()
-{
-   const [isAdmin,setAdmin]=useState(true);
-   const [hasProject,setHasProject]=useState(true);
-   
- return (
+export default function CreateProject() {
+  const [isAdmin, setAdmin] = useState(true);
+  const [hasProject, setHasProject] = useState(true);
+
+  return (
     <>
+      <div className="options-container">
+        {hasProject ? (
+          <Link to="/projects">
+            <div className="viewProjectBtn">
+              <Button variant="contained">View Your Projects</Button>
+            </div>
+          </Link>
+        ) : (
+          ""
+        )}
 
-    
-    <div className="options-container">
-    {hasProject?<a href="">
-        <div className="view-projects">
-            <h1>VIEW PROJECTS</h1>
-        </div>
-        </a>
-    :""
-    }
-
-
-      {isAdmin?<a href="">
-          
-          <div className="create-project">
-              <h1>CREATE NEW PROJECT</h1>
-          
-          </div>
-          </a>:""}
-        
-        
-    </div>
+        {isAdmin ? (
+          <Link to="/CreateNewProject">
+            <div className="createProjectBtn">
+              <Button variant="contained">Create New Project</Button>
+            </div>
+          </Link>
+        ) : (
+          ""
+        )}
+      </div>
     </>
- )
+  );
 }

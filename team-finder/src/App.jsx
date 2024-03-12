@@ -5,7 +5,9 @@ import Notifications from "./pages/notifications/notifications"
 import Profile from "./pages/profile/profile"
 import Projects from "./pages/projects/projects"
 import Team from "./pages/team/team"
+import CreateNewProject from "./pages/createNewProject/createNewProject"
 import { PrivateRoutes } from "./auth-logic/privateRoutes"
+
 
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/notifications" element={<Notifications/>}/>
           <Route path="/departments" element={<Departments/>}/>
+          <Route path="/CreateNewProject" element={<CreateNewProject/>}/>
           <Route path="*" element={<noPage/>}/>
         </Route>
       </Routes>
