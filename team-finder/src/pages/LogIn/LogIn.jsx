@@ -85,7 +85,9 @@ const LogIn = () => {
   return (
     <>
       <div className='wrapper'>
-        <img src={InterLink} alt="InterLink" className="InterLink" />
+        
+          <img src={InterLink} alt="InterLink" className="InterLink" />
+        
         <form className='InputContent' onSubmit={handleSubmit}>
           <img src={Logo} alt="Logo" className="logo" />
           <img src={Envelope} alt="Envelope" className="Envelope" />
