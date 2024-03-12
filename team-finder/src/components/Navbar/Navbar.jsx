@@ -29,7 +29,7 @@ export default function Navbar ()
                         <li>
                             <Link to="/team" className="anchor">
                             <img src="/src/assets/team-icon.png" alt="" />
-                            <span className="nav-item">TEAM</span>
+                            <span className="nav-item">ORGANIZATION</span>
                             </Link>
                             
                         </li>

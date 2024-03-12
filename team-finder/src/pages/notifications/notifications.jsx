@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar/Navbar";
 import { useState,useEffect } from "react";
 import api from "../../api/api";
 import CircularIndeterminate from "../../auth-logic/loading";
@@ -26,6 +25,7 @@ export default function Notifications(){
         if(!user){
             return CircularIndeterminate();
         }
+        else
 
     return(<>
 
