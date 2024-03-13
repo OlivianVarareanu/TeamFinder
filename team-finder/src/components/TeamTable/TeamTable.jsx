@@ -11,6 +11,7 @@ export default function () {
     const [currentPage, setCurrentPage] = useState(1);
     const [roles, setRoles] = useState([]);
     const [modifiedUsers, setModifiedUsers] = useState([]);
+    const [shouldRerender, setShouldRerender] = useState(false); // Noua stare pentru a forța re-render
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -28,7 +29,7 @@ export default function () {
         };
 
         fetchProfile();
-    }, [currentPage]);
+    }, [currentPage, shouldRerender]); // Adăugați shouldRerender în array-ul de dependențe
 
     const fetchOrganizationUsers = async (page) => {
         const response = await api.get(`api/organization/users?page=${page}`, { withCredentials: true });
@@ -63,9 +64,11 @@ export default function () {
     };
 
     const changeUserRole = async (userId, newRole) => {
+
         try {
             const updatedUsers = organizationUsers.map(user => {
-                if (user.id === userId) {
+              
+                if (user._id === userId) {
                     return { ...user, roles: newRole };
                 }
                 return user;
@@ -90,12 +93,14 @@ export default function () {
             await Promise.all(modifiedUsers.map(async modifiedUser => {
                 await axios.put(
                     "https://teamfinderapp.azurewebsites.net/api/admin/set-role",
-                    { userId: modifiedUser.id, role: modifiedUser.roles },
+                    { userId: modifiedUser.id, role: parseInt(modifiedUser.roles) },
                     { withCredentials: true }
                 );
             }));
             // Resetează lista de utilizatori modificați după salvare
             setModifiedUsers([]);
+            // Setează shouldRerender la valoarea opusă pentru a forța re-render
+            setShouldRerender(prevState => !prevState);
         } catch (error) {
             console.log('error', error);
         }
@@ -129,13 +134,13 @@ export default function () {
                                             <td>
                                                 {Array.isArray(orgUser.roles) ? (
                                                     orgUser.roles.map((role) => (
-                                                        <span key={role}>{mapRoles(role)}</span>
+                                                        <span key={role}>{mapRoles(role)}<br/></span>
                                                     ))
                                                 ) : (
                                                     <span>{mapRoles(orgUser.roles)}</span>
                                                 )}
                                                 {roles.includes(1) && (
-                                                    <select onChange={(e) => changeUserRole(orgUser.id, e.target.value)}>
+                                                    <select onChange={(e) => changeUserRole(orgUser._id, parseInt(e.target.value))}>
                                                         <option value="">Select Role</option>
                                                         <option value="1">Admin</option>
                                                         <option value="2">Department Manager</option>
@@ -152,7 +157,8 @@ export default function () {
                         <div className="buttons-wrapper">
                             <button onClick={handlePreviousPage} disabled={currentPage === 1} className="blue-button">Previous page</button>
                             <button onClick={handleNextPage} disabled={currentPage === totalPages} className="blue-button">Next page</button>
-                            <button onClick={handleSaveChanges} disabled={modifiedUsers.length === 0} className="blue-button">Save</button>
+                            {roles.includes(1)?
+                            <button onClick={handleSaveChanges} disabled={modifiedUsers.length === 0} className="blue-button">Save</button> : ""}
                         </div>
                     </>
                 ) : (
