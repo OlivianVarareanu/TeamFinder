@@ -5,12 +5,13 @@ import axios from 'axios'
     try{
         const response = await axios.post('api/user/logout');
 
-        localStorage.clear();
-        console.log(response.data.success);
+        
+        console.log('user delogat?',response.data);
 
         if(response.data.success){
           
         window.location.reload();
+        
         }
         
     }
