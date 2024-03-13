@@ -7,11 +7,11 @@ import axios from 'axios'
 
         
         console.log('user delogat?',response.data);
-
+        localStorage.clear();
         if(response.data.success){
           
         window.location.reload();
-        
+        console.log('user delogat');
         }
         
     }

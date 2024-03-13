@@ -1,3 +1,7 @@
+* {
+    font-family: sans-serif;
+}
+
 .blue-button {
     width: 5rem;
     height: auto;
@@ -10,30 +14,52 @@
 }
 
 .blue-button:disabled {
-background-color: aliceblue;
-cursor:not-allowed;
+    background-color: aliceblue;
+    cursor: not-allowed;
 }
 
 .buttons-wrapper {
     display: flex;
 }
 
-.blue-button:hover{
-    background-color: rgb(83, 255, 255);
+.blue-button:hover {
+    background-color: rgb(214, 255, 255);
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
-.blue-button:disabled:hover{
-    background-color: rgb(83, 255, 255);
+.blue-button:disabled:hover {
+    background-color: aliceblue;
     cursor: pointer;
     transition: background-color 0.2s;
-    cursor:not-allowed;
+    cursor: not-allowed;
 }
 
-td,th {
-    text-align: center;
-    border: 1px solid black;
+table {
+    padding: 0;
     margin: 0;
-    padding: 20px;
+    gap: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    table-layout: fixed; /* Asigura ca latimea tabelului este fixa */
+    width: 50%;
+    height: 200px; /* Inaltimea tabelului */
+    overflow-y: auto; /* Adauga scrollbar vertical daca tabelul depaseste inaltimea */
 }
+
+th, td {
+    padding: 10px; /* Spatiul in jurul continutului celulelor */
+    border: 1px solid black; /* Adauga un contur celulelor */
+    text-align: center;
+    width: 20vw;
+    box-sizing: border-box; /* Asigura ca latimea celulei include si grosimea bordurii */
+}
+
+
+
+th { 
+    background-color: rgb(30, 133, 223);
+    color: white;
+}
+
+

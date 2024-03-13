@@ -86,9 +86,7 @@ export default function SignUp() {
     validateToken();
   }, [invitationToken]);
 
-  if(!auth){
-    return CircularIndeterminate();
-}
+
   
 
   const signUpEmployee = async () => {
@@ -142,6 +140,8 @@ export default function SignUp() {
     
     console.warn("result", data);
   };
+
+  console.log('isauth',auth);
 
   if(!auth)
   {
