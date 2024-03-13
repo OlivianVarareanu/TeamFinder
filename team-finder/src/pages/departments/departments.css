@@ -3,3 +3,15 @@
     flex-direction: row;
 }
 
+.ButtonsWrapper{
+    margin-top: 20%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.BackBtnDep {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 10% !important;
+    margin: 20px !important; 
+}

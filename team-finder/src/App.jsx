@@ -7,6 +7,9 @@ import Projects from "./pages/projects/projects"
 import Team from "./pages/team/team"
 import CreateNewProject from "./pages/createNewProject/createNewProject"
 import { PrivateRoutes } from "./auth-logic/privateRoutes"
+import CreateDepartment from "./pages/departments/Create"
+import DeleteDepartment from "./pages/departments/Delete"
+import UpdateDepartment from "./pages/departments/Update"
 
 
 
@@ -34,7 +37,11 @@ function App() {
           <Route path="/notifications" element={<Notifications/>}/>
           <Route path="/departments" element={<Departments/>}/>
           <Route path="/CreateNewProject" element={<CreateNewProject/>}/>
+          <Route path="/create" element={<CreateDepartment/>}/>
+          <Route path="/update" element={<UpdateDepartment/>}/>
+          <Route path="/delete" element={<DeleteDepartment/>}/>
           <Route path="*" element={<noPage/>}/>
+
         </Route>
       </Routes>
     </div>
