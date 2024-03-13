@@ -4,23 +4,30 @@ import CircularIndeterminate from "../auth-logic/loading";
 
 export default function fetch_access() {
 
-    const[user,setUser]=useState(false);
+    const[auth,setAuth]=useState(false);
 
     useEffect(()=> {
         const fetchProfile = async () => {
             try {
                 const response = await api.get('api/user/me',{withCredentials:true});
-                setUser(response.data);
+                if(response.status===200)
+                {
+                    setAuth(true);
+                }
+                else {
+                    setAuth(false);
+                }
                
             }
             catch(error){
                 console.log('se incarca info');
+                
             }
             }
             fetchProfile();
         },[]);
 
-        if(!user){
+        if(!auth){
             return CircularIndeterminate();
         }
 }

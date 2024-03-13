@@ -3,7 +3,7 @@ import {useNavigate, Navigate, useLocation, Link } from 'react-router-dom';
 import Logo from '/src/assets/Logo.png';
 import InterLink from '/src/assets/ONKVWY0 copy.png';
 import "./SignUp.css";
-
+import api from '../../api/api';
 import CircularIndeterminate from '../../auth-logic/loading';
 import axios from 'axios';
 
@@ -22,9 +22,35 @@ export default function SignUp() {
   const urlParams = new URLSearchParams(location.search);
   const invitationToken = urlParams.get('token');
 
+
   let navigate = useNavigate();
-  
-  
+  const[auth,setAuth]=useState(null);
+
+
+    useEffect(()=> {
+        const fetchProfile = async () => {
+            try {
+                const response = await api.get('api/user/me',{withCredentials:true});
+                if(response.status===200)
+                {
+                    setAuth(true);
+                }
+                else {
+                    setAuth(false);
+                }
+               
+            }
+            catch(error){
+                console.log('se incarca info');
+                
+            }
+            }
+            fetchProfile();
+        },[]);
+
+
+
+
 
   useEffect(() => {
     const validateToken = async () => {
@@ -55,10 +81,14 @@ export default function SignUp() {
       setIsLoading(false);
 
     };
+
+    
     validateToken();
   }, [invitationToken]);
 
-  
+  if(!auth){
+    return CircularIndeterminate();
+}
   
 
   const signUpEmployee = async () => {
@@ -87,7 +117,7 @@ export default function SignUp() {
   }
 
   const signUpAdministrator = async () => {
-
+    
     const item = { name, email, password, hq_address,organizationName };
     console.warn("item",item);
     const result = await fetch('api/auth/admin', {
@@ -113,83 +143,92 @@ export default function SignUp() {
     console.warn("result", data);
   };
 
-  return(
+  if(!auth)
+  {
+    return(
 
-   isValidToken ? 
-    <div className='wrapper'>
-      <img src={InterLink} alt="InterLink" className="InterLink" />
-      <div className='InputContent'>
-        <img src={Logo} alt="Logo" className="logoSignUp" />
-        <p className='employment-message'>EMPLOYMENT INVITATION FROM</p> 
+    isValidToken ? 
+      <div className='wrapper'>
+        <img src={InterLink} alt="InterLink" className="InterLink" />
+        <div className='InputContent'>
+          <img src={Logo} alt="Logo" className="logoSignUp" />
+          <p className='employment-message'>EMPLOYMENT INVITATION FROM</p> 
 
-        <h1 className='company-name'>{companyName.current.toUpperCase()}</h1>
-        <input onChange={(e) => setName(e.target.value)} className='NameSignUp' type='text' placeholder='Name' required value={name} />
-        <input onChange={(e) => setEmail(e.target.value)} className='EmailSignUp' type='text' placeholder='Email' required value={email} />
-        <input onChange={(e) => setPassword(e.target.value)} className='PasswordSignUp' type='password' placeholder='Password' required value={password} />
-        <button onClick={signUpEmployee} className='LogInBtnSignUp'>Sign Up</button>
-        <Link to="/login" className="createAccount">Already Signed up?</Link>
+          <h1 className='company-name'>{companyName.current.toUpperCase()}</h1>
+          <input onChange={(e) => setName(e.target.value)} className='NameSignUp' type='text' placeholder='Name' required value={name} />
+          <input onChange={(e) => setEmail(e.target.value)} className='EmailSignUp' type='text' placeholder='Email' required value={email} />
+          <input onChange={(e) => setPassword(e.target.value)} className='PasswordSignUp' type='password' placeholder='Password' required value={password} />
+          <button onClick={signUpEmployee} className='LogInBtnSignUp'>Sign Up</button>
+          <Link to="/login" className="createAccount">Already Signed up?</Link>
+        </div>
       </div>
-    </div>
 
-  :
+    :
 
-     <div className='wrapper'>
-      <img src={InterLink} alt="InterLink" className="InterLink" />
+      <div className='wrapper'>
+        <img src={InterLink} alt="InterLink" className="InterLink" />
 
-      <div className='InputContent'>
-        <img src={Logo} alt="Logo" className="logoSignUp" />
+        <div className='InputContent'>
+          <img src={Logo} alt="Logo" className="logoSignUp" />
 
-        <input onChange={(e) => setName(e.target.value)}
-            className='NameSignUp'
-            type='text'
-            placeholder='Name'
-            required
-            value={name}
-          />
-          <input onChange={(e) => setEmail(e.target.value)}
-            className='EmailSignUp'
-            type='text'
-            placeholder='Email'
-            required
-            value={email}
-          />
-          <input onChange={(e) => setPassword(e.target.value)}
-            className='PasswordSignUp'
-            type='password'
-            placeholder='Password'
-            required
-            value={password}
-          />
-          <input onChange={(e) => setOrganizationName(e.target.value)}
-            className='NameSignUp'
-            type='text'
-            placeholder='Organization Name'
-            required
-            value={organizationName}
-          />
-          <input onChange={(e) => setHq_address(e.target.value)}
-            className='NameSignUp'
-            type='text'
-            placeholder='Headquarter Address'
-            required
-            value={hq_address}
-          />
+          <input onChange={(e) => setName(e.target.value)}
+              className='NameSignUp'
+              type='text'
+              placeholder='Name'
+              required
+              value={name}
+            />
+            <input onChange={(e) => setEmail(e.target.value)}
+              className='EmailSignUp'
+              type='text'
+              placeholder='Email'
+              required
+              value={email}
+            />
+            <input onChange={(e) => setPassword(e.target.value)}
+              className='PasswordSignUp'
+              type='password'
+              placeholder='Password'
+              required
+              value={password}
+            />
+            <input onChange={(e) => setOrganizationName(e.target.value)}
+              className='NameSignUp'
+              type='text'
+              placeholder='Organization Name'
+              required
+              value={organizationName}
+            />
+            <input onChange={(e) => setHq_address(e.target.value)}
+              className='NameSignUp'
+              type='text'
+              placeholder='Headquarter Address'
+              required
+              value={hq_address}
+            />
 
 
+        
+        
+            <button onClick={signUpAdministrator} className='LogInBtnSignUp'>Sign Up as Employee</button>
       
-      
-          <button onClick={signUpAdministrator} className='LogInBtnSignUp'>Sign Up as Employee</button>
-    
-      
-      
-          <Link className='back'to={"/login"} >Back</Link>
-      
+        
+        
+            <Link className='back'to={"/login"} >Back</Link>
+        
 
+        </div>
       </div>
-    </div>
       
- 
+      
+        
+  
 
-)
+  )
+  } else {
+    navigate("/projects");
+  } 
 
-  }
+}
+
+  

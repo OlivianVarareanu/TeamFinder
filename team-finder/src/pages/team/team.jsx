@@ -6,23 +6,23 @@ import CircularIndeterminate from "../../auth-logic/loading";
 
 export default function Team() {
 
-    const [user, setUser] = useState(null);
-    
+    const [auth, setAuth] = useState(null);
+    const [roles,setRoles] = useState(null);
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
                 // Obține informațiile despre utilizatorul actual
-                const responseUser = await api.get('api/user/me', { withCredentials: true });
-                setUser(responseUser.data);
+                const response = await api.get('api/user/me', { withCredentials: true });
+                if(response.status===200)
+                {
+                    setAuth(true);
+                    console.log('rezultatul fetchului=',response);
+                    setRoles(response.data.user.roles);
+                    console.log('roluri user=',roles);
 
+                }
 
-                // Obține lista de utilizatori ai organizației
-                const responseOrganizationUsers = await api.get('api/organization/users', { withCredentials: true });
-                setOrganizationUsers(responseOrganizationUsers.data.users);
-                console.log(responseOrganizationUsers.data.users);
-
-                
             } catch (error) {
                 console.log(error);
             }
@@ -31,18 +31,9 @@ export default function Team() {
         fetchProfile();
     }, []);
 
-    if (!user) {
+    if (!auth) {
         return CircularIndeterminate();
     }
-
-    const temp = localStorage.getItem('user');
-    
-    const temp2 = JSON.parse(temp);
-
-    const roles = temp2.roles;
-
-    console.log('roluri ',roles);
-
 
     return(
 
@@ -50,7 +41,9 @@ export default function Team() {
         <TeamTable/>
         <div>
         
-        {roles.includes(1)?
+        {
+        roles.includes(1)
+        ?
         <InviteLinkGenerator/>
         :""
                 }

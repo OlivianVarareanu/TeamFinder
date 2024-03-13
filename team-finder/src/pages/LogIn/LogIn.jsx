@@ -7,10 +7,6 @@ import Envelope from '/src/assets/envelope-solid (1).svg';
 import Lock from '/src/assets/lock-solid (1).svg';
 import './LogIn.css';
 
-
-
-
-
 const LogIn = () => {
 
   const [isAuth, setIsAuth] = useState(false);
@@ -57,23 +53,21 @@ const LogIn = () => {
 
     try {
       const response = await axios.post('api/auth/signin', credentials,{withCredentials:true});
-      const { accessToken, refreshToken } = response.data.data;
-      const  user  = response.data.data.user;
+      const { accessToken } = response.data.data;
 
-      console.log(response.data.data.user);
+      console.log('raspuns login',response.status);
    
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken',refreshToken);
-      localStorage.setItem('user',JSON.stringify(user));
 
 
-      if (accessToken) {
+      if (response.status==200) {
         setIsAuth(true);
       }
 
       else
       {
-        
+        setIsAuth(false);
+        alert("Wrong email or password");
       }
       // Redirect sau efectuează alte acțiuni după autentificarea reușită
     } catch (error) {
