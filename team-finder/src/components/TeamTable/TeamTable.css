@@ -1,0 +1,39 @@
+.blue-button {
+    width: 5rem;
+    height: auto;
+    font-size: 1rem;
+    color: black;
+    margin: 20px;
+    padding: 10px;
+    background-color: rgb(206, 225, 253);
+    border-radius: 10px;
+}
+
+.blue-button:disabled {
+background-color: aliceblue;
+cursor:not-allowed;
+}
+
+.buttons-wrapper {
+    display: flex;
+}
+
+.blue-button:hover{
+    background-color: rgb(83, 255, 255);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.blue-button:disabled:hover{
+    background-color: rgb(83, 255, 255);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    cursor:not-allowed;
+}
+
+td,th {
+    text-align: center;
+    border: 1px solid black;
+    margin: 0;
+    padding: 20px;
+}
