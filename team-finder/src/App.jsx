@@ -18,13 +18,10 @@ function App() {
 
   return (
     <>
-    
 
     <div className="wrapper">
 
-
     <Navbar/>
-
 
     <div className="content">
       

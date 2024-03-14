@@ -27,6 +27,9 @@ function TabPanel(props) {
 export default function Departments() {
   const [user, setUser] = useState(null);
   const [value, setValue] = useState("one");
+  const [isClickedCreate, setIsClickedCreate] = useState("");
+  const [isClickedUpdate, setIsClickedUpdate] = useState("");
+  const [isClickedDelete, setIsClickedDelete] = useState("");
 
 
   useEffect(() => {
