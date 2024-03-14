@@ -55,11 +55,36 @@ th, td {
     box-sizing: border-box; /* Asigura ca latimea celulei include si grosimea bordurii */
 }
 
+.delete-role-button {
+    width: 2vw;
+    background-color: rgb(255, 187, 187);
+   
+   
+    border-radius: 5px;
+}
+
+.delete-role-button:hover {
+    cursor: pointer;
+}
+
+.add-role {
+    background-color: rgb(235, 235, 235);
+}
+
 
 
 th { 
     background-color: rgb(30, 133, 223);
     color: white;
+}
+
+.cancel-button {
+    background-color: aliceblue;
+    border: 1px solid black;
+}
+
+.cancel-button:hover {
+    cursor: pointer;
 }
 
 
