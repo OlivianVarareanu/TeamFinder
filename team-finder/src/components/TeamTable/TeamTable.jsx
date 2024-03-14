@@ -11,7 +11,8 @@ export default function () {
     const [currentPage, setCurrentPage] = useState(1);
     const [roles, setRoles] = useState([]);
     const [modifiedUsers, setModifiedUsers] = useState([]);
-    const [shouldRerender, setShouldRerender] = useState(false); // Noua stare pentru a forța re-render
+    const [shouldRerender, setShouldRerender] = useState(false);
+    const [selectedRoles, setSelectedRoles] = useState({}); // Starea pentru a stoca rolurile selectate pentru fiecare utilizator
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -29,7 +30,7 @@ export default function () {
         };
 
         fetchProfile();
-    }, [currentPage, shouldRerender]); // Adăugați shouldRerender în array-ul de dependențe
+    }, [currentPage, shouldRerender]);
 
     const fetchOrganizationUsers = async (page) => {
         const response = await api.get(`api/organization/users?page=${page}`, { withCredentials: true });
@@ -64,10 +65,8 @@ export default function () {
     };
 
     const changeUserRole = async (userId, newRole) => {
-
         try {
             const updatedUsers = organizationUsers.map(user => {
-              
                 if (user._id === userId) {
                     return { ...user, roles: newRole };
                 }
@@ -88,22 +87,44 @@ export default function () {
         }
     };
 
-    const handleSaveChanges = async () => {
+    const deleteRole = async (userId, roleToDelete) => {
         try {
-            await Promise.all(modifiedUsers.map(async modifiedUser => {
-                await axios.put(
-                    "https://teamfinderapp.azurewebsites.net/api/admin/set-role",
-                    { userId: modifiedUser.id, role: parseInt(modifiedUser.roles) },
-                    { withCredentials: true }
-                );
-            }));
-            // Resetează lista de utilizatori modificați după salvare
-            setModifiedUsers([]);
-            // Setează shouldRerender la valoarea opusă pentru a forța re-render
+            // Șterge rolul utilizatorului
+            await axios.put(
+                "/api/admin/delete-role",
+                { userId: userId, role: roleToDelete },
+                { withCredentials: true }
+            );
+            // Reîncarcă lista de utilizatori
             setShouldRerender(prevState => !prevState);
         } catch (error) {
             console.log('error', error);
         }
+    };
+
+    const handleSaveChanges = async () => {
+        try {
+            await Promise.all(modifiedUsers.map(async modifiedUser => {
+                await axios.put(
+                    "/api/admin/set-role",
+                    { userId: modifiedUser.id, role: parseInt(modifiedUser.roles) },
+                    { withCredentials: true }
+                );
+            }));
+           
+            setModifiedUsers([]);
+            setSelectedRoles({}); // Resetăm și starea rolurilor selectate
+            setShouldRerender(prevState => !prevState);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
+    const handleCancel = (userId) => {
+        // Anulează modificările pentru utilizatorul specificat
+        const updatedSelectedRoles = { ...selectedRoles };
+        delete updatedSelectedRoles[userId];
+        setSelectedRoles(updatedSelectedRoles);
     };
 
     if (!user) {
@@ -133,20 +154,42 @@ export default function () {
                                         {roles.includes(1) && (
                                             <td>
                                                 {Array.isArray(orgUser.roles) ? (
-                                                    orgUser.roles.map((role) => (
-                                                        <span key={role}>{mapRoles(role)}<br/></span>
+                                                    
+                                                    orgUser.roles.map((role, index) => (
+                                                        <span key={role}>
+                                                            {mapRoles(role)}
+                                                            {orgUser.roles.length > 1 && (
+                                                                <button className="delete-role-button" onClick={() => deleteRole(orgUser._id, role)}>x</button>
+                                                            )}
+                                                            {index !== orgUser.roles.length -1 && <br />}
+                                                        </span>
                                                     ))
                                                 ) : (
-                                                    <span>{mapRoles(orgUser.roles)}</span>
+                                                    <span>
+                                                        {mapRoles(orgUser.roles)}
+                                                        {orgUser.roles !== null && (
+                                                            <button className="delete-role-button" onClick={() => deleteRole(orgUser._id, orgUser.roles)}>X</button>
+                                                        )}
+                                                    </span>
                                                 )}
-                                                {roles.includes(1) && (
-                                                    <select onChange={(e) => changeUserRole(orgUser._id, parseInt(e.target.value))}>
-                                                        <option value="">Select Role</option>
-                                                        <option value="1">Admin</option>
-                                                        <option value="2">Department Manager</option>
-                                                        <option value="3">Project Manager</option>
-                                                        <option value="4">Employee</option>
+                                                {roles.includes(1) && orgUser.roles && orgUser.roles.length < 4 && (
+                                                    <>
+                                                    <br /><br />
+                                                    <select className="add-role" value={selectedRoles[orgUser._id] || ""} onChange={(e) => {
+                                                        setSelectedRoles(prevState => ({ ...prevState, [orgUser._id]: parseInt(e.target.value) }));
+                                                        setModifiedUsers(prevState => [{ id: orgUser._id, roles: parseInt(e.target.value) }, ...prevState]);
+                                                    }}>
+                                                        <option value="" disabled>Add Role</option>
+                                                        {[1, 2, 3, 4]
+                                                        .filter(role => !Array.isArray(orgUser.roles) || !orgUser.roles.includes(role)) // Excludem rolurile pe care le deține deja utilizatorul
+                                                        .map(role => (
+                                                            <option key={role} value={role}>{mapRoles(role)}</option>
+                                                        ))}
                                                     </select>
+                                                    {selectedRoles[orgUser._id] && (
+                                                        <button className="cancel-button" onClick={() => handleCancel(orgUser._id)}>Cancel</button>
+                                                    )}
+                                                    </>
                                                 )}
                                             </td>
                                         )}
@@ -157,8 +200,9 @@ export default function () {
                         <div className="buttons-wrapper">
                             <button onClick={handlePreviousPage} disabled={currentPage === 1} className="blue-button">Previous page</button>
                             <button onClick={handleNextPage} disabled={currentPage === totalPages} className="blue-button">Next page</button>
-                            {roles.includes(1)?
-                            <button onClick={handleSaveChanges} disabled={modifiedUsers.length === 0} className="blue-button">Save</button> : ""}
+                            {roles.includes(1) && (
+                                <button onClick={handleSaveChanges} disabled={modifiedUsers.length === 0} className="blue-button">Save</button>
+                            )}
                         </div>
                     </>
                 ) : (
