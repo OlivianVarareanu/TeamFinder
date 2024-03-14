@@ -64,28 +64,7 @@ export default function () {
         }
     };
 
-    const changeUserRole = async (userId, newRole) => {
-        try {
-            const updatedUsers = organizationUsers.map(user => {
-                if (user._id === userId) {
-                    return { ...user, roles: newRole };
-                }
-                return user;
-            });
-            setOrganizationUsers(updatedUsers);
-
-            const modifiedUserIndex = modifiedUsers.findIndex(user => user.id === userId);
-            if (modifiedUserIndex === -1) {
-                setModifiedUsers([...modifiedUsers, { id: userId, roles: newRole }]);
-            } else {
-                const updatedModifiedUsers = [...modifiedUsers];
-                updatedModifiedUsers[modifiedUserIndex] = { id: userId, roles: newRole };
-                setModifiedUsers(updatedModifiedUsers);
-            }
-        } catch (error) {
-            console.log('error', error);
-        }
-    };
+    
 
     const deleteRole = async (userId, roleToDelete) => {
         try {

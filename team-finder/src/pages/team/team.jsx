@@ -3,6 +3,7 @@ import InviteLinkGenerator from "../../components/InviteLinkGenerator/InviteLink
 import TeamTable from "../../components/TeamTable/TeamTable";
 import { useState,useEffect } from "react";
 import CircularIndeterminate from "../../auth-logic/loading";
+import TeamRoles from "../../components/TeamRoles/TeamRoles";
 
 export default function Team() {
 
@@ -47,6 +48,8 @@ export default function Team() {
         <InviteLinkGenerator/>
         :""
                 }
+
+        <TeamRoles/>
         </div>
         </>
     )

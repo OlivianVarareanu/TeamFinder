@@ -48,10 +48,10 @@ table {
 }
 
 th, td {
-    padding: 10px; /* Spatiul in jurul continutului celulelor */
+    padding: 5px; /* Spatiul in jurul continutului celulelor */
     border: 1px solid black; /* Adauga un contur celulelor */
     text-align: center;
-    width: 20vw;
+    width: 10vw;
     box-sizing: border-box; /* Asigura ca latimea celulei include si grosimea bordurii */
 }
 

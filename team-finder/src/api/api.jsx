@@ -2,7 +2,7 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
 const api = axios.create({
-  baseURL:'https://teamfinderapp.azurewebsites.net/' , // Schimbă cu adresa API-ului tău
+  baseURL:'https://teamfinderapp.azurewebsites.net/' , 
 });
 
 
@@ -36,9 +36,7 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return axios(originalRequest);
       } catch (error) {
-        // Tratează eroarea de actualizare a tokenului sau redirecționează la pagina de autentificare
-        // const navigate = useNavigate();
-        // navigate('/login');
+
         console.log(error);
       }
     }
