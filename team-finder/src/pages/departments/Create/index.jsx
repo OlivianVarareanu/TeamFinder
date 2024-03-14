@@ -8,31 +8,43 @@ import CircularIndeterminate from "../../../auth-logic/loading";
 
 export default function CreateDepartment() {
   const [departmentName, setDepartmentName] = useState("");
-  const [department, setDepartment] = useState({});
-
-  const [auth, setAuth] = useState(false);
+  // const [departments, setDepartments] = useState({});
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchDepartments = async () => {
       try {
-        const response = await api.get("api/user/me", {
-          withCredentials: true,
-        });
-        if (response.status === 200) {
-          setAuth(true);
-        } else {
-          setAuth(false);
-        }
+        const response = await api.get('/api/organization/get-departments', { withCredentials: true });
+        console.log("raspuns ===:", response); 
+        if (response && response.status === 200) {
+          
+        } 
       } catch (error) {
-        console.log("se incarca info");
+        console.error("Error fetching departments:", error);
+        
       }
     };
-    fetchProfile();
-  }, []);
-
-  if (!auth) {
-    return CircularIndeterminate();
-  }
+    fetchDepartments();
+  },[]
+  )
+    const FetchCreateDepartment = async (departmentName) => {
+      try {
+        console.log(departmentName)
+        const response = await api.post(
+          "/api/department/create",{
+            department: {
+                name:departmentName,
+            }
+    
+          },
+          {
+            withCredentials:true,
+          }
+        );
+        console.log("Added department:", response.data);
+      } catch (error) {
+        console.error("Error adding department:", error);
+      }
+    };
   return (
     <div>
       <div className="CreateDepartmentWrapper">
@@ -40,7 +52,6 @@ export default function CreateDepartment() {
         <TextField
           value={departmentName}
           onChange={(e) => setDepartmentName( e.target.value )}
-          
         />
         <Button
           variant="contained"
@@ -58,24 +69,7 @@ export default function CreateDepartment() {
 }
 
 
-const FetchCreateDepartment = async (departmentName) => {
-  try {
-    const response = await axios.post(
-      "https://teamfinderapp.azurewebsites.net/api/department/create",{
-        department: {
-            name: departmentName
-        }
 
-      },
-      
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")} `,
-        },
-      }
-    );
-    console.log("Added department:", response.data);
-  } catch (error) {
-    console.error("Error adding department:", error);
-  }
-};
+  
+
+
