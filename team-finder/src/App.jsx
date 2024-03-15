@@ -10,7 +10,7 @@ import { PrivateRoutes } from "./auth-logic/privateRoutes"
 import CreateDepartment from "./pages/departments/Create"
 import DeleteDepartment from "./pages/departments/Delete"
 import UpdateDepartment from "./pages/departments/Update"
-
+import "./App.css"
 
 
 function App() {
@@ -19,11 +19,11 @@ function App() {
   return (
     <>
 
-    <div className="wrapper">
+    <div className="app-wrapper">
 
     <Navbar/>
 
-    <div className="content">
+    <div className="app-content">
       
       <Routes>
         <Route element={<PrivateRoutes />} >

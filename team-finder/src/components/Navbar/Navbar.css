@@ -19,18 +19,19 @@ html {
 }
 
 nav {
-    position: absolute;
+    
     display: inline-block;
     top: 0;
     bottom: 0;
-    height: 100%;
-    left:0;
+    height: 100vh;
+
     background: white;
     width: clamp(6rem,10vw,10rem);
     
     overflow: hidden;
     box-shadow: 0 20px 35px rgba(0,0,0,0.1);
-
+    flex-shrink: 0;
+    position: sticky;
 }
 
 li{
