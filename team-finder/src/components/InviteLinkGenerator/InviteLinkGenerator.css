@@ -1,5 +1,14 @@
-.display {
-    width: 30rem;
-    font-size: 10px;
-    overflow: scroll;
+.generate-button{
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgb(58, 189, 58);
+    color: white;
+
+}
+
+.generate-button:hover{
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+    background-color: rgb(64, 212, 64);
+    transition: background-color 0.3s;
+    cursor: pointer;
 }

@@ -62,7 +62,7 @@ export default function CreateDepartment() {
         </Button>
       </div>
       <Link to="/departments">
-        <Button variant="contained">BACK</Button>
+        <Button variant ="contained">BACK</Button>
       </Link>
     </div>
   );

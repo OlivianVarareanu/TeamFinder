@@ -10,12 +10,12 @@ export default function InviteLinkGenerator() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.post('/api/admin/invitation',{withCredentials:true});
-                setUser(response.data);   
-            } catch(error){
+                const response = await api.post('/api/admin/invitation', { withCredentials: true });
+                setUser(response.data);
+            } catch (error) {
                 console.log(error);
             }
-        }
+        };
         fetchProfile();
     }, []);
 
@@ -24,26 +24,25 @@ export default function InviteLinkGenerator() {
             const token = user.inviteToken.token;
             const currentUrl = window.location.href;
             const updatedUrl = `${currentUrl.substring(0, currentUrl.length - 4)}signup?token=${token}`;
-            const display = document.getElementById('display');
             
-            if (display) {
-                display.innerText = updatedUrl;
-            }
-            
+            // Copiază link-ul în clipboard
+            navigator.clipboard.writeText(updatedUrl)
+                .then(() => {
+                    alert("Invitation link has been copied successfully to clipboard.");
+                })
+                .catch((error) => {
+                    console.error("An error occurred while copying the link to clipboard. Please try again.", error);
+                });
         }
-    }
-
-    console.log(user);
+    };
 
     if (!user) {
         return <CircularIndeterminate />;
     }
 
-
     return (
         <>
-            <button onClick={handleClick}>Generate Link Invitation</button>
-            <p className="display" id="display"></p>
+            <button className="generate-button" onClick={handleClick}>Generate Link Invitation</button>
         </>
     );
 }

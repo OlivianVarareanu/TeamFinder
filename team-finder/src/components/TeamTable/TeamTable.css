@@ -20,6 +20,7 @@
 
 .buttons-wrapper {
     display: flex;
+    justify-content: center;
 }
 
 .blue-button:hover {
@@ -42,23 +43,29 @@ table {
     border-spacing: 0;
     border-collapse: collapse;
     table-layout: fixed; /* Asigura ca latimea tabelului este fixa */
-    width: 50%;
+    width: 100%;
     height: 200px; /* Inaltimea tabelului */
     overflow-y: auto; /* Adauga scrollbar vertical daca tabelul depaseste inaltimea */
+    font-size: clamp(10px,0.7vw,15px);
+
+    
 }
 
 th, td {
     padding: 5px; /* Spatiul in jurul continutului celulelor */
-    border: 1px solid black; /* Adauga un contur celulelor */
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: rgba(99, 82, 255, 0.212);
     text-align: center;
-    width: 10vw;
+    width: 12vw;
     box-sizing: border-box; /* Asigura ca latimea celulei include si grosimea bordurii */
+    
 }
 
 .delete-role-button {
     width: 2vw;
     background-color: rgb(255, 187, 187);
-   
+    margin-left: 10px;
    
     border-radius: 5px;
 }
@@ -76,6 +83,7 @@ th, td {
 th { 
     background-color: rgb(30, 133, 223);
     color: white;
+    padding: 20px;
 }
 
 .cancel-button {
@@ -85,6 +93,13 @@ th {
 
 .cancel-button:hover {
     cursor: pointer;
+}
+
+.horizontal-cell {
+    display: flex;
+    align-items: center;
+    justify-content:flex-end;
+    margin: 5px 0px 5px 0px;
 }
 
 
