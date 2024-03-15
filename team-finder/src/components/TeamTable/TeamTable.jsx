@@ -4,7 +4,7 @@ import api from "../../api/api";
 import CircularIndeterminate from "../../auth-logic/loading";
 import "./TeamTable.css";
 
-export default function () {
+export default function TeamTable() {
     const [user, setUser] = useState(null);
     const [organizationUsers, setOrganizationUsers] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
@@ -12,7 +12,7 @@ export default function () {
     const [roles, setRoles] = useState([]);
     const [modifiedUsers, setModifiedUsers] = useState([]);
     const [shouldRerender, setShouldRerender] = useState(false);
-    const [selectedRoles, setSelectedRoles] = useState({}); // Starea pentru a stoca rolurile selectate pentru fiecare utilizator
+    const [selectedRoles, setSelectedRoles] = useState({});
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -22,7 +22,7 @@ export default function () {
                 setRoles(responseUser.data.user.roles);
 
                 const responseOrganizationUsers = await fetchOrganizationUsers(currentPage);
-                setOrganizationUsers(responseOrganizationUsers.users);
+                setOrganizationUsers(responseOrganizationUsers.users.sort((a, b) => a.name.localeCompare(b.name)));
                 setTotalPages(responseOrganizationUsers.pagination.totalPages);
             } catch (error) {
                 console.log(error);
@@ -64,17 +64,13 @@ export default function () {
         }
     };
 
-    
-
     const deleteRole = async (userId, roleToDelete) => {
         try {
-            // Șterge rolul utilizatorului
             await axios.put(
                 "/api/admin/delete-role",
                 { userId: userId, role: roleToDelete },
                 { withCredentials: true }
             );
-            // Reîncarcă lista de utilizatori
             setShouldRerender(prevState => !prevState);
         } catch (error) {
             console.log('error', error);
@@ -92,7 +88,7 @@ export default function () {
             }));
            
             setModifiedUsers([]);
-            setSelectedRoles({}); // Resetăm și starea rolurilor selectate
+            setSelectedRoles({});
             setShouldRerender(prevState => !prevState);
         } catch (error) {
             console.log('error', error);
@@ -100,7 +96,6 @@ export default function () {
     };
 
     const handleCancel = (userId) => {
-        // Anulează modificările pentru utilizatorul specificat
         const updatedSelectedRoles = { ...selectedRoles };
         delete updatedSelectedRoles[userId];
         setSelectedRoles(updatedSelectedRoles);
@@ -111,83 +106,80 @@ export default function () {
     }
 
     return (
-        <>
-            <div className="wrapper-table">
-                {Array.isArray(organizationUsers) && organizationUsers.length > 0 ? (
-                    <>
-                        <table className="users-table">
-                            <thead>
-                                <tr>
-                                    <th>NAME</th>
-                                    <th>EMAIL</th>
-                                    <th>AVAILABLE HOURS</th>
-                                    {roles.includes(1) && <th>ROLES</th>}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {organizationUsers.map((orgUser) => (
-                                    <tr key={orgUser.email}>
-                                        <td>{orgUser.name}</td>
-                                        <td>{orgUser.email}</td>
-                                        <td>{orgUser.availableHours}</td>
-                                        {roles.includes(1) && (
-                                            <td>
-                                                {Array.isArray(orgUser.roles) ? (
-                                                    
-                                                    orgUser.roles.map((role, index) => (
-                                                        <span key={role}>
-                                                            {mapRoles(role)}
-                                                            {orgUser.roles.length > 1 && (
-                                                                <button className="delete-role-button" onClick={() => deleteRole(orgUser._id, role)}>x</button>
-                                                            )}
-                                                            {index !== orgUser.roles.length -1 && <br />}
-                                                        </span>
-                                                    ))
-                                                ) : (
-                                                    <span>
-                                                        {mapRoles(orgUser.roles)}
-                                                        {orgUser.roles !== null && (
-                                                            <button className="delete-role-button" onClick={() => deleteRole(orgUser._id, orgUser.roles)}>X</button>
+        <div className="wrapper-table">
+            {Array.isArray(organizationUsers) && organizationUsers.length > 0 ? (
+                <>
+                    <table className="users-table">
+                        <thead>
+                            <tr>
+                                <th>NAME</th>
+                                <th>EMAIL</th>
+                                {roles.includes(1) && <th>AVAILABLE HOURS</th>}
+                                {roles.includes(1) && <th>ROLES</th>}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {organizationUsers.map((orgUser) => (
+                                <tr key={orgUser.email}>
+                                    <td>{orgUser.name}</td>
+                                    <td>{orgUser.email}</td>
+                                    {roles.includes(1) && <td>{orgUser.availableHours}</td>}
+                                    {roles.includes(1) && (
+                                        <td>
+                                            {Array.isArray(orgUser.roles) ? (
+                                                orgUser.roles.map((role, index) => (
+                                                    <span className="horizontal-cell" key={role}>
+                                                        {mapRoles(role)}
+                                                        {orgUser.roles.length > 1 && (
+                                                            <button className="delete-role-button" onClick={() => deleteRole(orgUser._id, role)}>x</button>
                                                         )}
+                                                        {index !== orgUser.roles.length -1 && <br />}
                                                     </span>
-                                                )}
-                                                {roles.includes(1) && orgUser.roles && orgUser.roles.length < 4 && (
-                                                    <>
-                                                    <br /><br />
-                                                    <select className="add-role" value={selectedRoles[orgUser._id] || ""} onChange={(e) => {
-                                                        setSelectedRoles(prevState => ({ ...prevState, [orgUser._id]: parseInt(e.target.value) }));
-                                                        setModifiedUsers(prevState => [{ id: orgUser._id, roles: parseInt(e.target.value) }, ...prevState]);
-                                                    }}>
-                                                        <option value="" disabled>Add Role</option>
-                                                        {[1, 2, 3, 4]
-                                                        .filter(role => !Array.isArray(orgUser.roles) || !orgUser.roles.includes(role)) // Excludem rolurile pe care le deține deja utilizatorul
-                                                        .map(role => (
-                                                            <option key={role} value={role}>{mapRoles(role)}</option>
-                                                        ))}
-                                                    </select>
-                                                    {selectedRoles[orgUser._id] && (
-                                                        <button className="cancel-button" onClick={() => handleCancel(orgUser._id)}>Cancel</button>
+                                                ))
+                                            ) : (
+                                                <span>
+                                                    {mapRoles(orgUser.roles)}
+                                                    {orgUser.roles !== null && (
+                                                        <button className="delete-role-button" onClick={() => deleteRole(orgUser._id, orgUser.roles)}>X</button>
                                                     )}
-                                                    </>
+                                                </span>
+                                            )}
+                                            {roles.includes(1) && orgUser.roles.length < 4 && (
+                                                <>
+                                                <br /><br />
+                                                <select className="add-role" value={selectedRoles[orgUser._id] || ""} onChange={(e) => {
+                                                    setSelectedRoles(prevState => ({ ...prevState, [orgUser._id]: parseInt(e.target.value) }));
+                                                    setModifiedUsers(prevState => [{ id: orgUser._id, roles: parseInt(e.target.value) }, ...prevState]);
+                                                }}>
+                                                    <option value="" disabled>Add Role</option>
+                                                    {[1, 2, 3, 4]
+                                                    .filter(role => !Array.isArray(orgUser.roles) || !orgUser.roles.includes(role))
+                                                    .map(role => (
+                                                        <option key={role} value={role}>{mapRoles(role)}</option>
+                                                    ))}
+                                                </select>
+                                                {selectedRoles[orgUser._id] && (
+                                                    <button className="cancel-button" onClick={() => handleCancel(orgUser._id)}>Cancel</button>
                                                 )}
-                                            </td>
-                                        )}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        <div className="buttons-wrapper">
-                            <button onClick={handlePreviousPage} disabled={currentPage === 1} className="blue-button">Previous page</button>
-                            <button onClick={handleNextPage} disabled={currentPage === totalPages} className="blue-button">Next page</button>
-                            {roles.includes(1) && (
-                                <button onClick={handleSaveChanges} disabled={modifiedUsers.length === 0} className="blue-button">Save</button>
-                            )}
-                        </div>
-                    </>
-                ) : (
-                    <CircularIndeterminate />
-                )}
-            </div>
-        </>
+                                                </>
+                                            )}
+                                        </td>
+                                    )}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="buttons-wrapper">
+                        <button onClick={handlePreviousPage} disabled={currentPage === 1} className="blue-button">&lt;</button>
+                        <button onClick={handleNextPage} disabled={currentPage === totalPages} className="blue-button">&gt;</button>
+                        {roles.includes(1) && (
+                            <button onClick={handleSaveChanges} disabled={modifiedUsers.length === 0} className="blue-button">Save</button>
+                        )}
+                    </div>
+                </>
+            ) : (
+                <CircularIndeterminate />
+            )}
+        </div>
     );
 }

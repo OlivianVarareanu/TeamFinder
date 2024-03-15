@@ -30,5 +30,6 @@ export default function fetch_access() {
         if(!auth){
             return CircularIndeterminate();
         }
+
 }
 

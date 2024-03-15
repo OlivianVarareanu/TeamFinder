@@ -4,6 +4,7 @@ import TeamTable from "../../components/TeamTable/TeamTable";
 import { useState,useEffect } from "react";
 import CircularIndeterminate from "../../auth-logic/loading";
 import TeamRoles from "../../components/TeamRoles/TeamRoles";
+import "./team.css";
 
 export default function Team() {
 
@@ -40,16 +41,19 @@ export default function Team() {
 
         <>
         <TeamTable/>
-        <div>
-        
-        {
-        roles.includes(1)
-        ?
-        <InviteLinkGenerator/>
-        :""
-                }
+        <div className="section-divider">
+            <TeamRoles/>
 
-        <TeamRoles/>
+            <div className="link-generator">
+                <div>
+                    <h1>Invite people to join this organisation</h1>
+                </div>
+
+                <div>
+                {roles.includes(1)&&<InviteLinkGenerator/>}
+                </div>
+
+            </div>
         </div>
         </>
     )
