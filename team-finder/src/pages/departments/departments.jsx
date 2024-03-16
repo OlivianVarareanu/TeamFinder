@@ -7,6 +7,8 @@ import api from "../../api/api";
 import CircularIndeterminate from "../../auth-logic/loading";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import AssignDepManager from "../../components/AssignDepManager";
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -27,10 +29,9 @@ function TabPanel(props) {
 export default function Departments() {
   const [user, setUser] = useState(null);
   const [value, setValue] = useState("one");
-  const [isClickedCreate, setIsClickedCreate] = useState("");
-  const [isClickedUpdate, setIsClickedUpdate] = useState("");
-  const [isClickedDelete, setIsClickedDelete] = useState("");
-
+  const [isClickedCreate, setIsClickedCreate] = useState(false);
+  const [isClickedUpdate, setIsClickedUpdate] = useState(false);
+  const [isClickedDelete, setIsClickedDelete] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -70,45 +71,49 @@ export default function Departments() {
       </Tabs>
       <TabPanel value={value} index="one">
         <div className="ButtonsWrapper">
-          <Link to ="/create">
-          <Button
-            className="CreateBtnDep"
-            sx={{ width: 150, height: 50 }}
-            variant="contained"
-            color="success"
-            onClick={() => setIsClickedCreate(!isClickedCreate)}
-          >
-            CREATE
-          </Button>
-          </Link>
-
-            <Link to="/update">
-              <Button
-                sx={{ width: 150, height: 50 }}
-                variant="contained"
-                color="secondary"
-                onClick={() => setIsClickedUpdate(!isClickedUpdate )}
-                
-              >
-                UPDATE
-              </Button>
+          {value === "one" && (
+            <>
+              <Link to="/create">
+                <Button
+                  className="CreateBtnDep"
+                  sx={{ width: 150, height: 50 }}
+                  variant="contained"
+                  color="success"
+                  onClick={() => setIsClickedCreate(!isClickedCreate)}
+                >
+                  CREATE
+                </Button>
               </Link>
-              <Link to ="/delete">
-              <Button
-                sx={{ width: 150, height: 50 }}
-                variant="contained"
-                color="error"
-                onClick={() => setIsClickedDelete(!isClickedDelete)}
-              >
-                DELETE
-              </Button>
+              <Link to="/update">
+                <Button
+                  sx={{ width: 150, height: 50 }}
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => setIsClickedUpdate(!isClickedUpdate)}
+                >
+                  UPDATE
+                </Button>
               </Link>
-            
-          
+              <Link to="/delete">
+                <Button
+                  sx={{ width: 150, height: 50 }}
+                  variant="contained"
+                  color="error"
+                  onClick={() => setIsClickedDelete(!isClickedDelete)}
+                >
+                  DELETE
+                </Button>
+              </Link>
+            </>
+          )}
+          {value === "two" && <AssignDepManager />}
         </div>
-        
-          
-        
+      </TabPanel>
+      <TabPanel value={value} index="two">
+       {
+        value === "two" && <AssignDepManager />
+       } 
+
       </TabPanel>
     </Box>
   );

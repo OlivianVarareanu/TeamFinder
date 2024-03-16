@@ -1,77 +1,103 @@
-import { useState, useEffect } from 'react';
-import CircularIndeterminate from '../../../auth-logic/loading';
-import api from '../../../api/api';
-import './index.css';
+import { useState, useEffect } from "react";
+import CircularIndeterminate from "../../../auth-logic/loading";
+import api from "../../../api/api";
+import "./index.css";
+import { Link } from "react-router-dom";
 
 export default function UpdateDepartment() {
   const [auth, setAuth] = useState(false);
   const [departments, setDepartments] = useState([]);
   const [error, setError] = useState(null);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await api.get("api/user/me", {
+        const responseUser = await api.get("api/user/me", {
           withCredentials: true,
         });
-        if (response.status === 200) {
-          setAuth(true);
-
-        } else {
-          setAuth(false);
-        }
+        setAuth(true); // Set auth to true upon successful user fetch
+  
+        const responseDeparments = await fetchDepartments(currentPage);
+        console.log(responseDeparments);
+        setDepartments(responseDeparments.departments);
+        setTotalPages(responseDeparments.pagination.totalPages);
       } catch (error) {
-        console.log("Error fetching profile:", error);
+        console.log(error);
+        setError(error); 
       }
     };
+  
     fetchProfile();
-  }, []);
+  }, [currentPage]);
 
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-        const response = await api.get('/api/organization/get-departments', { withCredentials: true });
-        console.log("raspuns ===:", response); // Add this line for logging
-        if (response && response.status === 200) {
-          setDepartments(response.data.departments);
-        } else {
-          setError(response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching departments:", error);
-        setError("Error fetching departments. Please try again later.");
-      }
-    };
+  const fetchDepartments = async (page) => {
+    const response = await api.get(`/api/organization/get-departments?page=${page}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  };
 
-    fetchDepartments(); 
-  }, []);
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   if (!auth) {
-    return CircularIndeterminate();
+    return <CircularIndeterminate />;
   }
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
+  const startIndex = (currentPage - 1) * 10;
+  const endIndex = startIndex + 10;
+  const displayedDepartments = departments.slice(startIndex, endIndex);
+
   return (
     <div>
       <table className="UpdateTable">
         <thead>
           <tr>
-            <th>Name</th>
-            {/* Add more table headers as needed */}
+            <th>Name Department</th>
+            <th>Department Manager</th>
           </tr>
         </thead>
         <tbody>
           {departments.map((department, index) => (
             <tr key={index}>
               <td>{department.name}</td>
-              {/* Add more table cells to display additional department data */}
+              <td>{department.manager}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="buttons-wrapper">
+        <button
+          onClick={handlePreviousPage}
+          className="blue-button"
+          disabled={currentPage === 1} // Disable if on the first page
+        >
+          Previous page
+        </button>
+        <button
+          onClick={handleNextPage}
+          className="blue-button"
+          disabled={currentPage === totalPages} // Disable if on the last page
+        >
+          Next page
+        </button>
+        
+      </div>
     </div>
   );
 }

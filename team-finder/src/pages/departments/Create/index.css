@@ -1,4 +1,14 @@
+/* CreateDepartmentStyles.css */
 .CreateDepartmentWrapper {
     padding: 50px;
     display: flex;
-}
+  }
+  
+  .CreateDepartmentForm {
+    padding: 20px;
+  }
+  
+  .CreateDepartmentInput {
+    margin-bottom: 20px;
+  }
+  

@@ -130,7 +130,6 @@ export default function () {
     if (!user) {
         return <CircularIndeterminate />;
     }
-
     return (
         <>
             <div className="wrapper-table">
