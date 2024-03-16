@@ -32,20 +32,6 @@
     color: rgb(0, 0, 119);
 }
 
-.EmailSignUp {
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 300px;
-    height: 45px;
-    padding: 0px 52px;
-    margin-bottom: 10px;
-    border-radius: 15px;
-    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
-    margin-bottom: 35px;
-    animation: transitionIn 0.75s;
-    border: none;
-}
-
 .back {
     margin-top: 20px;
     margin-right: 195px;
@@ -54,7 +40,7 @@
     animation: transitionIn 0.75s;
 }
 
-.NameSignUp {
+.NameSignUp, .PasswordSignUp,.EmailSignUp {
     background-color: #ffffff;
     width: 100%;
     max-width: 300px;
@@ -67,21 +53,6 @@
     animation: transitionIn 0.75s;
     border: none;
 }
-
-.PasswordSignUp {
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 300px;
-    height: 45px;
-    padding: 0px 52px;
-    margin-bottom: 10px;
-    border-radius: 15px;
-    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
-    margin-bottom: 35px;
-    animation: transitionIn 0.75s;
-    border: none;
-}
-
 
 .LogInBtnSignUp {
     margin-top: -10px;

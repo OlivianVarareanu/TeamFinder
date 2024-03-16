@@ -44,11 +44,17 @@ table {
     border-collapse: collapse;
     table-layout: fixed; /* Asigura ca latimea tabelului este fixa */
     width: 100%;
-    height: 200px; /* Inaltimea tabelului */
-    overflow-y: auto; /* Adauga scrollbar vertical daca tabelul depaseste inaltimea */
+
+
+    overflow-y: scroll; /* Adauga scrollbar vertical daca tabelul depaseste inaltimea */
     font-size: clamp(10px,0.7vw,15px);
 
+
     
+}
+
+tr,th {
+    width: 100%;
 }
 
 th, td {
@@ -64,6 +70,7 @@ th, td {
 
 .delete-role-button {
     width: 2vw;
+    color: white;
     background-color: rgb(255, 187, 187);
     margin-left: 10px;
    
@@ -72,10 +79,23 @@ th, td {
 
 .delete-role-button:hover {
     cursor: pointer;
+    background-color: rgb(255, 221, 221);
+    transition: background-color 0.2s;
+}
+.users-table{
+
+    max-height: 50vh;
+    overflow-y: scroll;
 }
 
 .add-role {
+    position:relative;
+
+    right: 0px;
     background-color: rgb(235, 235, 235);
+    width: 13vw;
+    padding: 3px;
+    font-size: 12px;
 }
 
 
@@ -87,8 +107,12 @@ th {
 }
 
 .cancel-button {
-    background-color: aliceblue;
-    border: 1px solid black;
+    color: white;
+    background-color: rgb(255, 98, 98);
+    
+    border-radius: 3px;
+    padding: 5px;
+    margin: 2px;
 }
 
 .cancel-button:hover {
@@ -100,6 +124,15 @@ th {
     align-items: center;
     justify-content:flex-end;
     margin: 5px 0px 5px 0px;
+}
+
+.roles-cell {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end ;
+    align-items: flex-end;
 }
 
 

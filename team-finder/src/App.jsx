@@ -35,7 +35,8 @@ function App() {
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/notifications" element={<Notifications/>}/>
         <Route path="/departments" element={<Departments/>}/>
-        <Route path="/CreateNewProject" element={<CreateNewProject/>}/>
+        <Route path="/projects/create-new-project" element={<CreateNewProject/>}/>
+        <Route path="/projects/view" element={<ViewProjects/>}/>
         <Route path="/create" element={<CreateDepartment/>}/>
         <Route path="/update" element={<UpdateDepartment/>}/>
         <Route path="/delete" element={<DeleteDepartment/>}/>

@@ -210,7 +210,7 @@ export default function SignUp() {
 
         
         
-            <button onClick={signUpAdministrator} className='LogInBtnSignUp'>Sign Up as Employee</button>
+            <button onClick={signUpAdministrator} className='LogInBtnSignUp'>Sign Up as Admin</button>
       
         
         

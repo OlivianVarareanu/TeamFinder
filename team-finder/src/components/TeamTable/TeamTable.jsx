@@ -125,7 +125,7 @@ export default function TeamTable() {
                                     <td>{orgUser.email}</td>
                                     {roles.includes(1) && <td>{orgUser.availableHours}</td>}
                                     {roles.includes(1) && (
-                                        <td>
+                                        <td className="roles-cell">
                                             {Array.isArray(orgUser.roles) ? (
                                                 orgUser.roles.map((role, index) => (
                                                     <span className="horizontal-cell" key={role}>
