@@ -135,4 +135,9 @@ th {
     align-items: flex-end;
 }
 
+.loading-spinner {
+    max-height: 20px;
+    max-width: 20px;
+}
+
 

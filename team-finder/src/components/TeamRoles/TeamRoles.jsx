@@ -3,9 +3,7 @@ import api from "../../api/api";
 import CircularIndeterminate from "../../auth-logic/loading";
 import axios from "axios";
 import "./TeamRoles.css"
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
+
 
 const TeamRoles = () => {
     const [auth, setAuth] = useState(false);
@@ -76,7 +74,7 @@ const TeamRoles = () => {
             console.log(selectedEditRole);
         }
     };
-    
+  
     async function handleDeleteRole() {
         try {
             const response = await axios.delete("/api/admin/delete-team-role",  {
@@ -86,13 +84,17 @@ const TeamRoles = () => {
               }
       
             } );
+            
       
             if (response.status === 200) {
                 console.log("Role deleted successfully!");
                 setShouldRerender(!shouldRerender);
                 setSelectedDeleteRole("");
+
+                
             } else {
                 console.error("Failed to delete role:", response.data);
+                
             }
         } catch (error) {
             console.error("Error deleting role:", error);
