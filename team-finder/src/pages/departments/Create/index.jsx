@@ -31,6 +31,7 @@ export default function CreateDepartment() {
   };
 
   return (
+  <>
     <div>
       <div className="CreateDepartmentWrapper">
         <Typography variant="h4">Enter Department Name : </Typography>
@@ -50,6 +51,7 @@ export default function CreateDepartment() {
         <Button variant ="contained">BACK</Button>
       </Link>
     </div>
+
     <Grid container justifyContent="center" alignItems="center" style={{ minHeight: "100vh" }}>
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <Paper elevation={3} sx={{ padding: 4 }}>
@@ -84,5 +86,7 @@ export default function CreateDepartment() {
         </Paper>
       </Grid>
     </Grid>
+  </>
+    
   );
 }
