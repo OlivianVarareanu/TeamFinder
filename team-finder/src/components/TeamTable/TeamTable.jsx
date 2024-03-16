@@ -104,7 +104,6 @@ export default function TeamTable() {
     if (!user) {
         return <CircularIndeterminate />;
     }
-
     return (
         <div className="wrapper-table">
             {Array.isArray(organizationUsers) && organizationUsers.length > 0 ? (
