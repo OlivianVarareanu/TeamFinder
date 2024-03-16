@@ -7,6 +7,7 @@ import "./loading.css";
 export default function CircularIndeterminate() {
   return (
     <div className='circular-wrapper-app'>
+      
       <CircularProgress />
     </div>
   );

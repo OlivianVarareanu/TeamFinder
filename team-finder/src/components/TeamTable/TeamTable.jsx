@@ -13,6 +13,8 @@ export default function TeamTable() {
     const [modifiedUsers, setModifiedUsers] = useState([]);
     const [shouldRerender, setShouldRerender] = useState(false);
     const [selectedRoles, setSelectedRoles] = useState({});
+    const [userActions, setUserActions] = useState({});
+    const [loading, setLoading] = useState(false); // Starea pentru încărcare
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -64,20 +66,35 @@ export default function TeamTable() {
         }
     };
 
-    const deleteRole = async (userId, roleToDelete) => {
+    const handleDeleteRole = async (userId, roleToDelete) => {
+        setUserActions(prevState => ({ ...prevState, [userId]: true })); // Marchează începutul acțiunii pentru utilizatorul specific
         try {
             await axios.put(
                 "/api/admin/delete-role",
                 { userId: userId, role: roleToDelete },
                 { withCredentials: true }
             );
+            const updatedUsers = organizationUsers.map(user => {
+                if (user._id === userId) {
+                    return {
+                        ...user,
+                        roles: user.roles.filter(role => role !== roleToDelete)
+                    };
+                }
+                return user;
+            });
+            setOrganizationUsers(updatedUsers);
             setShouldRerender(prevState => !prevState);
         } catch (error) {
             console.log('error', error);
+        } finally {
+            setUserActions(prevState => ({ ...prevState, [userId]: false })); // Marchează sfârșitul acțiunii pentru utilizatorul specific
         }
     };
 
     const handleSaveChanges = async () => {
+        setLoading(true); // Începe încărcarea
+
         try {
             await Promise.all(modifiedUsers.map(async modifiedUser => {
                 await axios.put(
@@ -86,12 +103,18 @@ export default function TeamTable() {
                     { withCredentials: true }
                 );
             }));
-           
+
+            // După ce s-au salvat modificările, actualizează lista de utilizatori
+            const updatedUsers = await fetchOrganizationUsers(currentPage);
+            setOrganizationUsers(updatedUsers.users.sort((a, b) => a.name.localeCompare(b.name)));
+            setTotalPages(updatedUsers.pagination.totalPages);
+            
             setModifiedUsers([]);
             setSelectedRoles({});
-            setShouldRerender(prevState => !prevState);
         } catch (error) {
             console.log('error', error);
+        } finally {
+            setLoading(false); // Termină încărcarea
         }
     };
 
@@ -126,41 +149,47 @@ export default function TeamTable() {
                                     {roles.includes(1) && <td>{orgUser.availableHours}</td>}
                                     {roles.includes(1) && (
                                         <td className="roles-cell">
-                                            {Array.isArray(orgUser.roles) ? (
-                                                orgUser.roles.map((role, index) => (
-                                                    <span className="horizontal-cell" key={role}>
-                                                        {mapRoles(role)}
-                                                        {orgUser.roles.length > 1 && (
-                                                            <button className="delete-role-button" onClick={() => deleteRole(orgUser._id, role)}>x</button>
-                                                        )}
-                                                        {index !== orgUser.roles.length -1 && <br />}
-                                                    </span>
-                                                ))
+                                            {userActions[orgUser._id] ? (
+                                                <CircularIndeterminate/>
                                             ) : (
-                                                <span>
-                                                    {mapRoles(orgUser.roles)}
-                                                    {orgUser.roles !== null && (
-                                                        <button className="delete-role-button" onClick={() => deleteRole(orgUser._id, orgUser.roles)}>X</button>
-                                                    )}
-                                                </span>
-                                            )}
-                                            {roles.includes(1) && orgUser.roles.length < 4 && (
                                                 <>
-                                                <br /><br />
-                                                <select className="add-role" value={selectedRoles[orgUser._id] || ""} onChange={(e) => {
-                                                    setSelectedRoles(prevState => ({ ...prevState, [orgUser._id]: parseInt(e.target.value) }));
-                                                    setModifiedUsers(prevState => [{ id: orgUser._id, roles: parseInt(e.target.value) }, ...prevState]);
-                                                }}>
-                                                    <option value="" disabled>Add Role</option>
-                                                    {[1, 2, 3, 4]
-                                                    .filter(role => !Array.isArray(orgUser.roles) || !orgUser.roles.includes(role))
-                                                    .map(role => (
-                                                        <option key={role} value={role}>{mapRoles(role)}</option>
-                                                    ))}
-                                                </select>
-                                                {selectedRoles[orgUser._id] && (
-                                                    <button className="cancel-button" onClick={() => handleCancel(orgUser._id)}>Cancel</button>
-                                                )}
+                                                    {Array.isArray(orgUser.roles) ? (
+                                                        orgUser.roles.map((role, index) => (
+                                                            <span className="horizontal-cell" key={role}>
+                                                                {mapRoles(role)}
+                                                                {orgUser.roles.length > 1 && (
+                                                                    <button className="delete-role-button" onClick={() => handleDeleteRole(orgUser._id, role)}>x</button>
+                                                                )}
+                                                                {index !== orgUser.roles.length -1 && <br />}
+                                                            </span>
+                                                        ))
+                                                    ) : (
+                                                        <span>
+                                                            {mapRoles(orgUser.roles)}
+                                                            {orgUser.roles !== null && (
+                                                                <button className="delete-role-button" onClick={() => handleDeleteRole(orgUser._id, orgUser.roles)}>X</button>
+                                                            )}
+                                                        </span>
+                                                    )}
+                                                    {roles.includes(1) && orgUser.roles.length < 4 && (
+                                                        <>
+                                                            <br /><br />
+                                                            <select className="add-role" value={selectedRoles[orgUser._id] || ""} onChange={(e) => {
+                                                                setSelectedRoles(prevState => ({ ...prevState, [orgUser._id]: parseInt(e.target.value) }));
+                                                                setModifiedUsers(prevState => [{ id: orgUser._id, roles: parseInt(e.target.value) }, ...prevState]);
+                                                            }}>
+                                                                <option value="" disabled>Add Role</option>
+                                                                {[1, 2, 3, 4]
+                                                                    .filter(role => !Array.isArray(orgUser.roles) || !orgUser.roles.includes(role))
+                                                                    .map(role => (
+                                                                        <option key={role} value={role}>{mapRoles(role)}</option>
+                                                                    ))}
+                                                            </select>
+                                                            {selectedRoles[orgUser._id] && (
+                                                                <button className="cancel-button" onClick={() => handleCancel(orgUser._id)}>Cancel</button>
+                                                            )}
+                                                        </>
+                                                    )}
                                                 </>
                                             )}
                                         </td>
@@ -173,12 +202,12 @@ export default function TeamTable() {
                         <button onClick={handlePreviousPage} disabled={currentPage === 1} className="blue-button">&lt;</button>
                         <button onClick={handleNextPage} disabled={currentPage === totalPages} className="blue-button">&gt;</button>
                         {roles.includes(1) && (
-                            <button onClick={handleSaveChanges} disabled={modifiedUsers.length === 0} className="blue-button">Save</button>
+                            <button onClick={handleSaveChanges} disabled={modifiedUsers.length === 0 || loading} className="blue-button">Save</button>
                         )}
                     </div>
                 </>
             ) : (
-                <CircularIndeterminate />
+                <CircularIndeterminate/>
             )}
         </div>
     );
