@@ -67,7 +67,7 @@ export default function SignUp() {
             console.log(response);
          
             companyName.current=response.data.details.organizationId.name;
-
+            
             console.log(companyName.current);
 
           } else {
