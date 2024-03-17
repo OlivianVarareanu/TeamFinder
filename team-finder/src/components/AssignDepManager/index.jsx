@@ -39,7 +39,7 @@ export default function AssignDepManager() {
           params: {
             page: 1,
             pageSize: 100,
-            roles: [2], // Role ID for department managers
+            roles: 2, // Role ID for department managers
             hasDepartment: false,
           },
           withCredentials: true,
@@ -55,9 +55,12 @@ export default function AssignDepManager() {
 
   const fetchDepartments = async (page) => {
     try {
-      const response = await api.get(`/api/organization/get-departments?page=${page}`, {
-        withCredentials: true,
-      });
+      const response = await api.get(
+        `/api/organization/get-departments?page=${page}`,
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (error) {
       console.log("Error fetching departments:", error);
@@ -79,8 +82,9 @@ export default function AssignDepManager() {
 
   const handleManagerChange = async (departmentId, managerId) => {
     try {
+      console.log(managerId);
       await api.put(`/api/department/${departmentId}/set-manager`, {
-        managerId: managerId,
+        manager: managerId,
       });
     } catch (error) {
       console.log("Error updating manager:", error);
@@ -94,6 +98,7 @@ export default function AssignDepManager() {
       [departmentId]: managerId,
     }));
     handleManagerChange(departmentId, managerId);
+
   };
 
   if (!auth) {
@@ -121,16 +126,22 @@ export default function AssignDepManager() {
                 <select
                   value={selectedManagers[department.id] || ""}
                   onChange={(e) => {
+                    console.log(e.target.value);
                     const managerId = e.target.value;
-                    handleSelectedManagerChange(department.id, managerId);
+                    handleSelectedManagerChange(department._id, managerId);
                   }}
                 >
                   <option value="">Select Manager</option>
-                  {departmentManagers.map((manager, index) => (
-                    <option key={index} value={manager.id}>
-                      {manager.name}
-                    </option>
-                  ))}
+                  {departmentManagers.map((manager, index) => {
+                    if (manager.roles.includes(2)) {
+                      return (
+                        <option key={index} value={manager._id}>
+                          {manager.name}
+                        </option>
+                      );
+                    }
+                    return null;
+                  })}
                 </select>
               </td>
             </tr>

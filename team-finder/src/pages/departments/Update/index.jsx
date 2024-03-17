@@ -76,7 +76,7 @@ export default function UpdateDepartment() {
           {departments.map((department, index) => (
             <tr key={index}>
               <td>{department.name}</td>
-              <td>{department.manager}</td>
+              <td>{department.manager?.name}</td>
             </tr>
           ))}
         </tbody>

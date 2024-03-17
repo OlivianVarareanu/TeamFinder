@@ -9,7 +9,6 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import AssignDepManager from "../../components/AssignDepManager";
 
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -110,10 +109,7 @@ export default function Departments() {
         </div>
       </TabPanel>
       <TabPanel value={value} index="two">
-       {
-        value === "two" && <AssignDepManager />
-       } 
-
+        {value === "two" && <AssignDepManager />}
       </TabPanel>
     </Box>
   );
