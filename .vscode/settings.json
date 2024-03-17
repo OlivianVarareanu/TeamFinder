@@ -1,0 +1,8 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/26aadb3d-5019-4f65-8f93-e8402094a6ef/resourceGroups/DefaultResourceGroup-PLC/providers/Microsoft.Web/sites/codebros-team",
+    "appService.deploySubpath": "team-finder\\dist",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ]
+}
