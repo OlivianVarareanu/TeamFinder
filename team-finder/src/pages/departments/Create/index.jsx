@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Typography, TextField, Button, Grid, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 import api from "../../../api/api";
+import apiURL from "../../../../apiURL";
 
 export default function CreateDepartment() {
   const [departmentName, setDepartmentName] = useState("");
@@ -10,7 +11,7 @@ export default function CreateDepartment() {
   const FetchCreateDepartment = async () => {
     try {
       const response = await api.post(
-        "/api/department/create",
+        `${apiURL}/department/create`,
         {
           department: {
             name: departmentName,

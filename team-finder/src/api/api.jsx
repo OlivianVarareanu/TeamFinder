@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import apiURL from '../../apiURL';
 
 const api = axios.create({
   baseURL:'https://teamfinderapp.azurewebsites.net/' , 
@@ -27,7 +28,7 @@ api.interceptors.response.use(
 
       try {
         
-        const response = await axios.get(`api/user/refresh`, { withCredentials:true });
+        const response = await axios.get(`${apiURL}/user/refresh`, { withCredentials:true });
         console.log(response);
         const { accessToken } = response.data;
         

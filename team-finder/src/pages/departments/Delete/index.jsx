@@ -3,6 +3,7 @@ import CircularIndeterminate from "../../../auth-logic/loading";
 import api from "../../../api/api";
 import { TextField, Button, Typography, Link } from "@mui/material";
 import "./index.css";
+import apiURL from "../../../../apiURL";
 
 export default function DeleteDepartment() {
   const [auth, setAuth] = useState(false);
@@ -16,7 +17,7 @@ export default function DeleteDepartment() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const responseUser = await api.get("api/user/me", {
+        const responseUser = await api.get(`${apiURL}/user/me`, {
           withCredentials: true,
         });
         setAuth(true); // Set auth to true upon successful user fetch
@@ -32,7 +33,7 @@ export default function DeleteDepartment() {
   }, [currentPage]);
 
   const fetchDepartments = async (page) => {
-    const response = await api.get(`/api/organization/get-departments?page=${page}`, {
+    const response = await api.get(`${apiURL}/organization/get-departments?page=${page}`, {
       withCredentials: true,
     });
     return response.data;
@@ -44,7 +45,7 @@ export default function DeleteDepartment() {
       if (!department) {
         throw new Error("Department not found");
       }
-      const response = await api.delete(`/api/department/delete-department/${department._id}`, {
+      const response = await api.delete(`${apiURL}/department/delete-department/${department._id}`, {
         withCredentials: true,
       });
       if (response.status === 200) {

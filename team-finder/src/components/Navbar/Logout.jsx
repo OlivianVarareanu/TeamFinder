@@ -1,9 +1,9 @@
 import axios from 'axios'
-
+import apiURL from '../../../apiURL';
  const Logout = async() => {
 
     try{
-        const response = await axios.post('api/user/logout');
+        const response = await axios.post(`${apiURL}/user/logout`);
 
         
         console.log('user delogat?',response.data);

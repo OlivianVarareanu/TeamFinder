@@ -6,6 +6,7 @@ import InterLink from '/src/assets/ONKVWY0 copy.png';
 import Envelope from '/src/assets/envelope-solid (1).svg';
 import Lock from '/src/assets/lock-solid (1).svg';
 import './LogIn.css';
+import apiURL from '../../../apiURL';
 
 const LogIn = () => {
 
@@ -19,7 +20,7 @@ const LogIn = () => {
   useEffect( ()=> {
     const checkAuth = async () => {
       try{
-        const response = await axios.get('api/user/me',{
+        const response = await axios.get(`${apiURL}/user/me`,{
           headers: {
             "Authorization":`Bearer ${localStorage.getItem('accessToken')}`
           }
@@ -52,7 +53,7 @@ const LogIn = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('api/auth/signin', credentials,{withCredentials:true});
+      const response = await axios.post(`${apiURL}/auth/signin`, credentials,{withCredentials:true});
       const { accessToken } = response.data.data;
 
       console.log('raspuns login',response.status);

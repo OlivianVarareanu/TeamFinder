@@ -3,6 +3,7 @@ import axios from "axios";
 import api from "../../api/api";
 import CircularIndeterminate from "../../auth-logic/loading";
 import "./TeamTable.css";
+import apiURL from "../../../apiURL";
 
 export default function TeamTable() {
     const [user, setUser] = useState(null);
@@ -19,7 +20,7 @@ export default function TeamTable() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const responseUser = await api.get('api/user/me', { withCredentials: true });
+                const responseUser = await api.get(`${apiURL}/user/me`, { withCredentials: true });
                 setUser(responseUser.data);
                 setRoles(responseUser.data.user.roles);
 
@@ -35,7 +36,7 @@ export default function TeamTable() {
     }, [currentPage, shouldRerender]);
 
     const fetchOrganizationUsers = async (page) => {
-        const response = await api.get(`api/organization/users?page=${page}`, { withCredentials: true });
+        const response = await api.get(`${apiURL}/organization/users?page=${page}`, { withCredentials: true });
         return response.data;
     };
 
@@ -70,7 +71,7 @@ export default function TeamTable() {
         setUserActions(prevState => ({ ...prevState, [userId]: true })); // Marchează începutul acțiunii pentru utilizatorul specific
         try {
             await axios.put(
-                "/api/admin/delete-role",
+                `${apiURL}/admin/delete-role`,
                 { userId: userId, role: roleToDelete },
                 { withCredentials: true }
             );
@@ -98,7 +99,7 @@ export default function TeamTable() {
         try {
             await Promise.all(modifiedUsers.map(async modifiedUser => {
                 await axios.put(
-                    "/api/admin/set-role",
+                    `${apiURL}/admin/set-role`,
                     { userId: modifiedUser.id, role: parseInt(modifiedUser.roles) },
                     { withCredentials: true }
                 );

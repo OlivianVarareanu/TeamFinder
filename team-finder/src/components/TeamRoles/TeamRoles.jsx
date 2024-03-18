@@ -3,6 +3,7 @@ import api from "../../api/api";
 import CircularIndeterminate from "../../auth-logic/loading";
 import axios from "axios";
 import "./TeamRoles.css"
+import apiURL from "../../../apiURL";
 
 
 const TeamRoles = () => {
@@ -20,12 +21,12 @@ const TeamRoles = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.get('api/user/me', {pageSize:20},{ withCredentials: true });
+                const response = await api.get(`${apiURL}/user/me`, {pageSize:20},{ withCredentials: true });
                 if (response.status === 200) {
                     setAuth(true);
                     setRoles(response.data.user.roles);
                     // Fetch all roles for editing and deleting
-                    const rolesResponse = await api.get(`api/admin/get-team-roles?all=true`, { withCredentials: true });
+                    const rolesResponse = await api.get(`${apiURL}/admin/get-team-roles?all=true`, { withCredentials: true });
                     if (rolesResponse.status === 200) {
                         setAllRoles(rolesResponse.data.teamRoles);
                         console.log('roluri=',rolesResponse);
@@ -42,7 +43,7 @@ const TeamRoles = () => {
 
     const handleCreateRole = async () => {
         try {
-            const response = await api.post('api/admin/create-team-role', { name: newRoleName });
+            const response = await api.post(`${apiURL}/admin/create-team-role`, { name: newRoleName });
             if (response && response.status === 200) {
             console.log("Role created successfully!");
             setShouldRerender(!shouldRerender);
@@ -60,7 +61,7 @@ const TeamRoles = () => {
             return;
         }
         try {
-            const response = await api.put('api/admin/update-team-role', { oldName: selectedEditRole, newName: editRoleName },{withCredentials:true});
+            const response = await api.put(`${apiURL}/admin/update-team-role`, { oldName: selectedEditRole, newName: editRoleName },{withCredentials:true});
            
             if (response && response.status === 200) {
                 console.log("Role updated successfully!");
@@ -77,7 +78,7 @@ const TeamRoles = () => {
   
     async function handleDeleteRole() {
         try {
-            const response = await axios.delete("/api/admin/delete-team-role",  {
+            const response = await axios.delete(`${apiURL}/admin/delete-team-role`,  {
               data:  { name: selectedDeleteRole },
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`

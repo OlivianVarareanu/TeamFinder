@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import CircularIndeterminate from "../../auth-logic/loading";
 import api from "../../api/api";
 import "./InviteLinkGenerator.css";
+import apiURL from "../../../apiURL";
 
 export default function InviteLinkGenerator() {
     const [user, setUser] = useState(null);
@@ -10,7 +11,7 @@ export default function InviteLinkGenerator() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.post('/api/admin/invitation', { withCredentials: true });
+                const response = await api.post(`${apiURL}/admin/invitation1`, { withCredentials: true });
                 setUser(response.data);
             } catch (error) {
                 console.log(error);

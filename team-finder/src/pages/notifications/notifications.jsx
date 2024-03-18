@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 import api from "../../api/api";
 import CircularIndeterminate from "../../auth-logic/loading";
+import apiURL from "../../../apiURL";
 
 
 export default function Notifications(){
@@ -11,7 +12,7 @@ export default function Notifications(){
     useEffect(()=> {
         const fetchProfile = async () => {
             try {
-                const response = await api.get('api/user/me',{withCredentials:true});
+                const response = await api.get(`${apiURL}/user/me`,{withCredentials:true});
                 setUser(response.data);
                
             }

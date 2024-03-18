@@ -5,6 +5,7 @@ import { useState,useEffect } from "react";
 import CircularIndeterminate from "../../auth-logic/loading";
 import TeamRoles from "../../components/TeamRoles/TeamRoles";
 import "./team.css";
+import apiURL from "../../../apiURL";
 
 export default function Team() {
 
@@ -15,7 +16,7 @@ export default function Team() {
         const fetchProfile = async () => {
             try {
                 // Obține informațiile despre utilizatorul actual
-                const response = await api.get('api/user/me', { withCredentials: true });
+                const response = await api.get(`${apiURL}/user/me`, { withCredentials: true });
                 if(response.status===200)
                 {
                     setAuth(true);

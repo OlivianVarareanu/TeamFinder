@@ -8,6 +8,7 @@ import CircularIndeterminate from "../../auth-logic/loading";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import AssignDepManager from "../../components/AssignDepManager";
+import apiURL from "../../../apiURL";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -35,7 +36,7 @@ export default function Departments() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await api.get("api/user/me", {
+        const response = await api.get(`${apiURL}/user/me`, {
           withCredentials: true,
         });
         setUser(response.data);

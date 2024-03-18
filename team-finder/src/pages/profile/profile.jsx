@@ -10,6 +10,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Slider from "@mui/material/Slider";
 import "./profile.css";
 import CircularIndeterminate from "../../auth-logic/loading";
+import apiURL from "../../../apiURL";
 
 export default function Profile() {
   const SkillCategory = [
@@ -153,7 +154,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await api.get("api/user/me", {
+        const response = await api.get(`${apiURL}/user/me`, {
           withCredentials: true,
         });
         setUser(response.data);

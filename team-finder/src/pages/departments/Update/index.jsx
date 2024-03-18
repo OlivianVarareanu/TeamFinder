@@ -33,7 +33,7 @@ export default function UpdateDepartment() {
   }, [currentPage]);
 
   const fetchDepartments = async (page) => {
-    const response = await api.get(`/api/organization/get-departments?page=${page}`, {
+    const response = await api.get(`${apiURL}/organization/get-departments?page=${page}`, {
       withCredentials: true,
     });
     return response.data;

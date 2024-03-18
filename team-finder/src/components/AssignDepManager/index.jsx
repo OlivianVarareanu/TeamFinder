@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import CircularIndeterminate from "../../auth-logic/loading";
 import api from "../../api/api";
 import "./index.css";
+import apiURL from "../../../apiURL";
 
 export default function AssignDepManager() {
   const [auth, setAuth] = useState(false);
@@ -15,7 +16,7 @@ export default function AssignDepManager() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const responseUser = await api.get("api/user/me", {
+        const responseUser = await api.get(`${apiURL}/user/me`, {
           withCredentials: true,
         });
         setAuth(true);
@@ -35,7 +36,7 @@ export default function AssignDepManager() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/api/organization/users", {
+        const response = await api.get(`${apiURL}/organization/users`, {
           params: {
             page: 1,
             pageSize: 100,
@@ -56,7 +57,7 @@ export default function AssignDepManager() {
   const fetchDepartments = async (page) => {
     try {
       const response = await api.get(
-        `/api/organization/get-departments?page=${page}`,
+        `${apiURL}/organization/get-departments?page=${page}`,
         {
           withCredentials: true,
         }
@@ -83,7 +84,7 @@ export default function AssignDepManager() {
   const handleManagerChange = async (departmentId, managerId) => {
     try {
       console.log(managerId);
-      await api.put(`/api/department/${departmentId}/set-manager`, {
+      await api.put(`${apiURL}/department/${departmentId}/set-manager`, {
         manager: managerId,
       });
     } catch (error) {

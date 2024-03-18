@@ -6,6 +6,7 @@ import CircularIndeterminate from "../../auth-logic/loading";
 import api from "../../api/api";
 import CreateNewProject from "../CreateNewProject/CreateNewProject";
 import ViewProjects from "../ViewProjects/ViewProjects";
+import apiURL from "../../../apiURL";
 
 
 export default function CreateProject() {
@@ -18,7 +19,7 @@ export default function CreateProject() {
   useEffect(()=> {
       const fetchProfile = async () => {
           try {
-              const response = await api.get('api/user/me',{withCredentials:true});
+              const response = await api.get(`${apiURL}/user/me`,{withCredentials:true});
               if(response.status===200)
               {
                   setAuth(true);

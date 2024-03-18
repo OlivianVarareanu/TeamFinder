@@ -3,6 +3,7 @@ import { Outlet, Navigate, useNavigate } from 'react-router-dom'
 import api from '../api/api';
 import CircularIndeterminate from './loading';
 import "./loading.css";
+import apiURL from '../../apiURL';
 
 
 
@@ -16,7 +17,7 @@ export const PrivateRoutes = ({children}) => {
         
         const checkPermissions = async () => {
             try{
-                const response = await api.get('api/user/me');
+                const response = await api.get(`${apiURL}/user/me`);
                 console.log(response);
 
                 if(response.status === 200){

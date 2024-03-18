@@ -6,6 +6,7 @@ import "./SignUp.css";
 import api from '../../api/api';
 import CircularIndeterminate from '../../auth-logic/loading';
 import axios from 'axios';
+import apiURL from '../../../apiURL';
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -21,6 +22,7 @@ export default function SignUp() {
   const location = useLocation();
   const urlParams = new URLSearchParams(location.search);
   const invitationToken = urlParams.get('token');
+ 
 
 
   let navigate = useNavigate();
@@ -30,7 +32,7 @@ export default function SignUp() {
     useEffect(()=> {
         const fetchProfile = async () => {
             try {
-                const response = await api.get('api/user/me',{withCredentials:true});
+                const response = await api.get(`${apiURL}/user/me`,{withCredentials:true});
                 if(response.status===200)
                 {
                     setAuth(true);
@@ -56,7 +58,7 @@ export default function SignUp() {
     const validateToken = async () => {
       if (invitationToken) {
         try {
-          const response = await axios.get(`/api/token/validate/${invitationToken}`);
+          const response = await axios.get(`${apiURL}/token/validate/${invitationToken}`);
           if (response.data.success) {
             setIsValidToken(true);
 
@@ -91,7 +93,7 @@ export default function SignUp() {
 
   const signUpEmployee = async () => {
     
-    const result = await axios.post('/api/auth',{ name, email, password, invitationToken });
+    const result = await axios.post(`${apiURL}/auth`,{ name, email, password, invitationToken });
     
     if (result.status===200) {
       
@@ -118,7 +120,7 @@ export default function SignUp() {
     
     const item = { name, email, password, hq_address,organizationName };
     console.warn("item",item);
-    const result = await fetch('api/auth/admin', {
+    const result = await fetch(`${apiURL}/auth/admin`, {
       method: 'POST',
       body: JSON.stringify(item),
       headers: {
