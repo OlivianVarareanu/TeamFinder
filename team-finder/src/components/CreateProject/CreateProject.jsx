@@ -44,26 +44,34 @@ export default function CreateProject() {
 
   return (
     <>
+    { roles.includes(1)||roles.includes(3) ?
       <div className="options-container">
         
-        {hasProject ? (
           <Link to="/projects/view" variant="contained">
             <div className="view-projects">
               <Button variant="contained">View Your Projects</Button>
             </div> 
           </Link>
-        ) : "" }
-        
 
-        {auth ? (
           <Link to="/projects/create-new-project">
             <div className="create-project">
               <Button variant="contained">CREATE NEW PROJECT</Button>
             </div> 
           </Link>
-        ) : "" } 
+
         
       </div>
+
+      :
+      <div className="options-container">
+        
+          <Link to="/projects/view" variant="contained">
+            <div className="view-projects">
+              <Button variant="contained">See current project</Button>
+            </div> 
+          </Link>
+      </div>
+            }
     </>
   )
 }

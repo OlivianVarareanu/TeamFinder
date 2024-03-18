@@ -1,0 +1,49 @@
+.new-project-input {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    
+}
+
+.new-project-form {
+    width: 70%;
+    background-color: aliceblue;
+    padding: 2rem;
+    border-radius: 20px;
+    
+    
+}
+
+.item-separator {
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+
+.button-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-project-button {
+background-color: rgb(50, 214, 50);
+padding: 10px;
+border-radius: 10px;
+color: white;
+box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.3);
+
+}
+
+.create-project-button:hover {
+    cursor: pointer;
+}
+
