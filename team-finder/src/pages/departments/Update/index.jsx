@@ -3,6 +3,7 @@ import CircularIndeterminate from "../../../auth-logic/loading";
 import api from "../../../api/api";
 import "./index.css";
 import { Link } from "react-router-dom";
+import apiURL from "../../../../apiURL";
 
 export default function UpdateDepartment() {
   const [auth, setAuth] = useState(false);
@@ -14,7 +15,7 @@ export default function UpdateDepartment() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const responseUser = await api.get("api/user/me", {
+        const responseUser = await api.get(`${apiURL}/user/me`, {
           withCredentials: true,
         });
         setAuth(true); // Set auth to true upon successful user fetch
