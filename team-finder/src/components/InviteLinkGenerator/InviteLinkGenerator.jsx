@@ -11,7 +11,7 @@ export default function InviteLinkGenerator() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.post(`${apiURL}/admin/invitation1`, { withCredentials: true });
+                const response = await api.post(`${apiURL}/admin/invitation`, { withCredentials: true });
                 setUser(response.data);
             } catch (error) {
                 console.log(error);
