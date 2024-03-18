@@ -1,6 +1,6 @@
-import api from "../api/api";
-import CircularIndeterminate from "../auth-logic/loading";
-import apiURL from "../../apiURL";
+import api from "../../api/api";
+import CircularIndeterminate from "../../auth-logic/loading";
+import apiURL from "../../../apiURL";
 import { useState,useEffect } from "react";
 
 export default function ViewProjects () {
