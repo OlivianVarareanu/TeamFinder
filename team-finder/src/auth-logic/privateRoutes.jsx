@@ -3,7 +3,7 @@ import { Outlet, Navigate, useNavigate } from 'react-router-dom'
 import api from '../api/api';
 import CircularIndeterminate from './loading';
 import "./loading.css";
-import apiURL from '../../apiURL';
+import apiURL from '../../apiURL.js';
 
 
 
