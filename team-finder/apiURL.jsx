@@ -1,3 +1,3 @@
-const apiURL = "https://teamfinderapp.azurewebsites.net/";
+const apiURL = "https://teamfinderapp.azurewebsites.net";
 
 export default apiURL;
