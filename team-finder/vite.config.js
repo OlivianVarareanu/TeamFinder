@@ -6,10 +6,7 @@ export default defineConfig({
   plugins: [react()],
   withCredentials:true,
   server: {
-    proxy: {
-      '/api':'https://teamfinderapp.azurewebsites.net/'
 
-    },
 
    
   }
