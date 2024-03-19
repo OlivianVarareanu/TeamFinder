@@ -7,7 +7,7 @@ import api from '../../api/api';
         const response = await api.post(`${apiURL}/user/logout`);
 
         
-        console.log('user delogat?',response.data);
+        console.log('user delogat?',response);
         localStorage.clear();
         if(response.data.success){
           

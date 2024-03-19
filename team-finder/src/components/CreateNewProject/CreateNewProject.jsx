@@ -3,6 +3,7 @@ import apiURL from "../../../apiURL";
 import api from "../../api/api";
 import CircularIndeterminate from "../../auth-logic/loading";
 import "./CreateNewProject.css"
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateNewProject() {
     const [auth, setAuth] = useState(false);
@@ -86,7 +87,7 @@ export default function CreateNewProject() {
     }
 
 
-
+  
 
     const handleCreateProject = async () => {
         console.log(userRoles);
@@ -105,6 +106,9 @@ export default function CreateNewProject() {
                     console.log(response.data); // Răspunsul de la server
                     if(response.status===200){
                     alert("Project created successfully!");
+                    
+                    
+
                     setProjectData({
                         name: "",
                         period: "Fixed",

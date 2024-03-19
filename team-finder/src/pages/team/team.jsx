@@ -45,16 +45,16 @@ export default function Team() {
         <div className="section-divider">
             <TeamRoles/>
 
-            <div className="link-generator">
+            {roles.includes(1)&&<div className="link-generator">
                 <div>
                     <h1>Invite people to join this organisation</h1>
                 </div>
 
                 <div>
-                {roles.includes(1)&&<InviteLinkGenerator/>}
+                <InviteLinkGenerator/>
                 </div>
 
-            </div>
+            </div>}
         </div>
         </>
     )

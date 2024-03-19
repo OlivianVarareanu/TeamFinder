@@ -44,7 +44,7 @@ export default function CreateProject() {
 
   return (
     <>
-    { roles.includes(1)||roles.includes(3) ?
+    { roles.includes(3) ?
       <div className="options-container">
         
           <Link to="/projects/view" variant="contained">
@@ -67,11 +67,11 @@ export default function CreateProject() {
         
           <Link to="/projects/view" variant="contained">
             <div className="view-projects">
-              <Button variant="contained">See current project</Button>
+              <Button variant="contained">View Your Projects</Button>
             </div> 
           </Link>
       </div>
-            }
+       }
     </>
   )
 }
