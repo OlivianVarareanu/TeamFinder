@@ -4,7 +4,7 @@ import api from '../../api/api';
  const Logout = async() => {
 
     try{
-        const response = await api.post(`${apiURL}/user/logout`);
+        const response = await api.get(`${apiURL}/user/logout`);
 
         
         console.log('user delogat?',response);
