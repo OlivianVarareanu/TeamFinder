@@ -6,6 +6,7 @@ import "./ViewProjects.css";
 
 export default function ViewProjects() {
   const [auth, setAuth] = useState(false);
+  const [roles,setRoles] = useState([]);
   const [allProjects, setAllProjects] = useState([]); // Lista completă de proiecte
   const [filteredProjects, setFilteredProjects] = useState([]); // Lista de proiecte filtrate
   const ITEMS_PER_PAGE = 20;
@@ -36,6 +37,19 @@ export default function ViewProjects() {
         }
       } catch (error) {
         console.log("Error fetching projects:", error);
+      }
+
+      try {
+        const response2 = await api.get(`${apiURL}/user/me`,{withCredentials:true});
+        if(response2.status===200)
+        {
+          setRoles(response2.data.data.user.roles);
+        }
+      }
+
+      catch(error)
+      {
+        console.log(error);
       }
     };
 
@@ -115,7 +129,7 @@ export default function ViewProjects() {
   return (
     <div>
 
-      <div className="buttons-wrapper">
+      {roles.includes(3)&&<div className="buttons-wrapper">
 
         {/* Filtrare după perioada proiectului */}
         <div>
@@ -140,7 +154,7 @@ export default function ViewProjects() {
 
         {/* Butonul de aplicare a filtrelor */}
         <button onClick={applyFilters}>Apply</button>
-      </div>
+      </div>}
 
       {/* Tabelul cu proiectele filtrate */}
       <table>

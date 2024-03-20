@@ -21,6 +21,8 @@ export default function TeamTable() {
         const fetchProfile = async () => {
             try {
                 const responseUser = await api.get(`${apiURL}/user/me`, { withCredentials: true });
+
+                console.log(responseUser);
                 setUser(responseUser.data);
                 setRoles(responseUser.data.user.roles);
 
