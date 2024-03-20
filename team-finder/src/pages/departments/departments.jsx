@@ -100,9 +100,6 @@ export default function Departments() {
                 </Button>
               </Link>
               
-              
-              
-
               <Link to="/update">
                 <Button
                   sx={{ width: 150, height: 50 }}
