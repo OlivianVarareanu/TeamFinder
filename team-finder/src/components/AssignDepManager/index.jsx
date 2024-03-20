@@ -127,7 +127,6 @@ export default function AssignDepManager() {
                 <select
                   value={selectedManagers[department.id] || ""}
                   onChange={(e) => {
-                    console.log(e.target.value);
                     const managerId = e.target.value;
                     handleSelectedManagerChange(department._id, managerId);
                   }}

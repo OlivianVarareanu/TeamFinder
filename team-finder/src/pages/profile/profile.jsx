@@ -6,21 +6,11 @@ import Slider from "@mui/material/Slider";
 import CircularProgress from "@mui/material/CircularProgress";
 import api from "../../api/api";
 import apiURL from "../../../apiURL";
-
 import profileIcon from "../../assets/profile-icon.png";
 import CircularIndeterminate from "../../auth-logic/loading";
 
 export default function Profile() {
-  const skillCategories = [
-    "Programming Languages",
-    "Framework",
-    "Library",
-    "Back End",
-    "Front End",
-    "Software Engineering",
-    "AI",
-    "DevOps",
-  ];
+
 
   const experienceLevels = [
     "0-6 months",
@@ -33,14 +23,17 @@ export default function Profile() {
 
   const levelLabels = ["Learns", "Knows", "Does", "Helps", "Teaches"];
 
-  const [skillCategory, setSkillCategory] = useState("");
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [selectedLevel, setSelectedLevel] = useState(1);
   const [selectedExperience, setSelectedExperience] = useState(1);
   const [mySkills, setMySkills] = useState([]);
+  const [skillOptions, setSkillOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
+   const [filteredExperienceLevels, setFilteredExperienceLevels] = useState([]);
+  const [filteredLevelLabels, setFilteredLevelLabels] = useState([])
+  const [skills, setSkills] = useState([])
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -50,65 +43,109 @@ export default function Profile() {
         });
         setUser(response.data.user);
       } catch (error) {
-        console.log(error);
-        setError(error.message);
+        console.error("Error fetching profile:", error);
+        setError("Error fetching profile");
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchProfile();
   }, []);
 
+  useEffect(() => {
+    handleFetchSkills();
+  }, []);
+
+  const handleDeleteSkill = async (index) => {
+    try {
+      const skillIdToDelete = mySkills[index].skill._id;
+      await api.delete(`${apiURL}/department/delete-skill`, {
+        data: { skillId: skillIdToDelete }
+      });
+
+      const updatedSkills = [...mySkills];
+      updatedSkills.splice(index, 1);
+      setMySkills(updatedSkills);
+    } catch (error) {
+      console.error("Error deleting skill:", error);
+      setError("Error deleting skill");
+    }
+  };
+/////
+  useEffect(() => {
+    handleSkillsList();
+  }, []);
+
+  const handleSkillsList = async () => {
+    try {
+      const response = await api.get(`${apiURL}/skill/get-skills`);
+      const skills = response.data.results;
+      const skillNames = skills.map((skill) => skill.name);
+      setSkillOptions(skillNames);
+      setSkills(skills);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+      setError("Error fetching skills");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+////
   const handleFetchSkills = async () => {
     try {
       const response = await api.get(`${apiURL}/user/my-skills`);
       setMySkills(response.data.skills);
+      const skillNames = response.data.skills.map((skill) => skill.skillId.name);
+      // setSkillOptions(skillNames);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching skills:", error);
       setError("Error fetching skills");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (_, newValue) => {
     setSelectedExperience(newValue);
-  };
   
-  const handleLevelChange = (event, newValue) => {
-    setSelectedLevel(newValue);
   };
 
-  useEffect(() => {
-    handleFetchSkills();
-  }, []);
-
-  const handleDeleteSkill = (index) => {
-    const updatedSkills = [...mySkills];
-    updatedSkills.splice(index, 1);
-    setMySkills(updatedSkills);
+  const handleLevelChange = (_, newValue) => {
+    setSelectedLevel(newValue);
+    console.log(newValue);
   };
 
   const handleAddSkill = async () => {
-    if (selectedSkill) {
-      try {
-        const response = await api.post(`${apiURL}/user/assign-skill`, {
-          skill: {
-            level: selectedLevel,
-            experience: selectedExperience,
-            _id: selectedSkill,
-          },
-        });
-        const newSkill = {
-          skill: selectedSkill,
-          level: selectedLevel,
-          experience: selectedExperience,
-        };
-        setMySkills([...mySkills, newSkill]);
-      } catch (error) {
-        console.log("Error adding skill:", error);
-        setError("Error adding skill");
-      }
+    try {
+
+      // Find the selected skill object from the options array
+      const skillToAdd = selectedSkill;
+      console.log(skills);
+      console.log(skillToAdd);
+      const newSkill = {
+        _id: skills.find((skill) => skill.name === skillToAdd)._id,
+        level: levelLabels[selectedLevel - 1],
+        experience: experienceLevels[selectedExperience - 1],
+      };
+      
+
+      // Send the selected skill ID to the server
+      const response = await api.post(`${apiURL}/user/assign-skill`, {
+        skill: {...newSkill},
+      });
+
+      // Add the new skill to the list
+      
+
+      // Add the new skill to the list of selected skills
+      setMySkills([...mySkills, newSkill]);
+
+      // Clear the selected skill
+      setSelectedSkill(null);
+    } catch (error) {
+      console.error("Error adding skill:", error);
+      setError("Error adding skill");
     }
   };
 
@@ -123,7 +160,6 @@ export default function Profile() {
   if (!user) {
     return <CircularIndeterminate />;
   }
-
   return (
     <div className="LeftContainerProfile">
       <Avatar
@@ -148,19 +184,19 @@ export default function Profile() {
       <div className="MySkillsContainer">
         {mySkills.map((skill, index) => (
           <div key={index}>
-            <Typography variant="body1">Skill: {skill.skillId.name}</Typography>
+            <Typography variant="body1">Skill: {skill.name}</Typography>
             <Typography variant="body1">Level: {skill.level}</Typography>
             <Typography variant="body1">
               Experience: {skill.experience}
             </Typography>
-            <Button
+            {/* <Button
               sx={{ width: 80, height: 30 }}
               onClick={() => handleDeleteSkill(index)}
               className="DeleteSkillBtn"
               variant="contained"
             >
               Delete
-            </Button>
+            </Button> */}
             <Typography variant="body1">---------------------------</Typography>
           </div>
         ))}
@@ -172,29 +208,15 @@ export default function Profile() {
             Select a Skill:
           </Typography>
           <Autocomplete
-            disablePortal
-            className="CatCombo"
-            options={skillCategories}
-            value={skillCategory}
-            onChange={(event, newValue) => setSkillCategory(newValue)}
-            sx={{ width: 300 }}
-            renderInput={(params) => (
-              <TextField {...params} label="SkillCategory" />
-            )}
-          />
-          {skillCategory && (
-            <Autocomplete
-              disablePortal
-              className="SkillCombo"
-              options={SkillLists[skillCategory]}
-              value={selectedSkill}
-              onChange={(event, newValue) => setSelectedSkill(newValue)}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField {...params} label="SkillList" />
-              )}
-            />
-          )}
+  disablePortal
+  options={skillOptions}
+  value={selectedSkill}
+  onChange={(event, newValue) => setSelectedSkill(newValue)}
+  sx={{ width: 300 }}
+  renderInput={(params) => (
+    <TextField {...params} label="Select a Skill" />
+  )}
+/>
         </div>
         <div className="SkillSection">
           <Typography variant="h6" className="SkillLevel">
@@ -205,7 +227,7 @@ export default function Profile() {
             sx={{ width: 250, height: 5 }}
             aria-label="Small steps"
             value={selectedLevel}
-            onChange={(_, newValue) => setSelectedLevel(newValue)}
+            onChange={handleLevelChange}
             step={1}
             marks
             min={1}
@@ -219,26 +241,26 @@ export default function Profile() {
             Experience
           </Typography>
           <Slider
-  className="SliderLevel"
-  sx={{ width: 250, height: 5 }}
-  aria-label="Small steps"
-  value={selectedExperience}
-  onChange={handleChange} 
-  step={1}
-  marks
-  min={1}
-  max={experienceLevels.length}
-  valueLabelDisplay="auto"
-  valueLabelFormat={(value) => experienceLevels[value - 1]}
-/>
+            className="SliderLevel"
+            sx={{ width: 250, height: 5 }}
+            aria-label="Small steps"
+            value={selectedExperience}
+            onChange={handleChange}
+            step={1}
+            marks
+            min={1}
+            max={experienceLevels.length}
+            valueLabelDisplay="auto"
+            valueLabelFormat={(value) => experienceLevels[value - 1]}
+          />
           <Button
-            sx={{ width: 120, height: 35 }}
-            onClick={handleAddSkill}
-            className="AddSkillBtn"
-            variant="contained"
-          >
-            Add Skill
-          </Button>
+          sx={{ width: 120, height: 35 }}
+          onClick={handleAddSkill}
+          className="AddSkillBtn"
+          variant="contained"
+        >
+          Add Skill
+        </Button>
         </div>
       </div>
     </div>
