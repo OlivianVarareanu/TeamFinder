@@ -43,8 +43,10 @@ export default function ViewProjects() {
         const response2 = await api.get(`${apiURL}/user/me`,{withCredentials:true});
         if(response2.status===200)
         {
-          setRoles(response2.data.data.user.roles);
+          setRoles(response2.data.user.roles);
         }
+
+        
       }
 
       catch(error)
@@ -163,7 +165,7 @@ export default function ViewProjects() {
             <th>Project Name</th>
             <th>Project Period</th>
             <th>Project Status</th>
-            <th>Actions</th> {/* Adăugăm o coloană pentru acțiuni */}
+            {roles.includes(3)&&<th>Actions</th>} {/* Adăugăm o coloană pentru acțiuni */}
           </tr>
         </thead>
 
@@ -175,9 +177,9 @@ export default function ViewProjects() {
                 <td>{project.projectName}</td>
                 <td>{project.projectPeriod}</td>
                 <td>{project.projectStatus}</td>
-                <td>
-                  <button className="delete-project" onClick={() => handleDeleteConfirmation(project._id)}>Delete</button>
-                </td>
+                {roles.includes(3)&&<td>
+                <button className="delete-project" onClick={() => handleDeleteConfirmation(project._id)}>Delete</button>
+                </td>}
               </tr>
           ))}
         </tbody>

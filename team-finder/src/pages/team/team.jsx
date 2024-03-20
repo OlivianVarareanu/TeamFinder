@@ -47,7 +47,7 @@ export default function Team() {
 
             {roles.includes(1)&&<div className="link-generator">
                 <div>
-                    <h1>Invite people to join this organisation</h1>
+                    <h1>Invite people to join this organization</h1>
                 </div>
 
                 <div>
