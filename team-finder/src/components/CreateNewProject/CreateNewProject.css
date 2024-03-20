@@ -14,8 +14,14 @@
     background-color: aliceblue;
     padding: 2rem;
     border-radius: 20px;
+    box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.3);
     
     
+}
+
+.members-number {
+    width: 200px !important;
+    text-align: center;
 }
 
 .item-separator {
@@ -25,6 +31,23 @@
     margin-top: 5px;
     margin-bottom: 5px;
     width: 100%;
+   
+}
+
+h1 {
+    font-size: clamp(13px,2vw,18px);
+}
+
+.item-separator div {
+    width: 100%;
+    text-align: center;
+    margin: 5px;
+}
+
+.item-separator div *{
+    width: 100%;
+    padding: 5px;
+    font-size: clamp(10px,1vw,15px);
 }
 
 
@@ -32,6 +55,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
 
 .create-project-button {
@@ -40,10 +64,36 @@ padding: 10px;
 border-radius: 10px;
 color: white;
 box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.3);
+margin-top: 30px;
 
 }
 
 .create-project-button:hover {
     cursor: pointer;
+    box-shadow: 0px 0px 20px rgba(1, 255, 18, 0.435);
+    transition: box-shadow 0.3s;
 }
 
+.add-roles-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+
+.add-roles-separator *{
+    margin-inline: 10px;
+    font-size: clamp(10px,1vw,15px);
+    padding: 10px;
+}
+
+.add-roles-separator button {
+    background-color: rgb(220, 220, 220);
+    border-radius: 7px;
+}
+
+.add-roles-separator button:hover {
+    cursor: pointer;
+
+}

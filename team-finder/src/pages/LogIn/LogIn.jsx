@@ -72,8 +72,8 @@ const LogIn = () => {
       }
       // Redirect sau efectuează alte acțiuni după autentificarea reușită
     } catch (error) {
-      alert("Wrong email or password");
-      console.log(error);
+      
+      alert(error.response.data.error);
     }
   };
 

@@ -18,7 +18,7 @@ export default function CreateNewProject() {
         generalDescription: "",
         technologyStack: "",
         selectedRole: "", // Rolul selectat
-        selectedRoleMembers: 1, // Numărul de membri pentru rolul selectat
+        selectedRoleMembers: 1, // Numărul minim de membri pentru rolul selectat
         teamRoles: []
     });
 
@@ -139,12 +139,12 @@ export default function CreateNewProject() {
     return (
         <div className='new-project-input'>
             <div className='new-project-form'>
-                <center><p>Create new Project</p></center>
+                <center><h1>Create new Project</h1></center>
                 <br/>
                 <div className='item-separator'>
                     {/* Numele proiectului */}
                     <div>
-                        <label>Project Name:</label>
+                        <label>PROJECT NAME</label>
                     </div>
                     <div>
                         <input type="text" name="name" value={projectData.name} onChange={handleInputChange} />
@@ -153,7 +153,7 @@ export default function CreateNewProject() {
                 <div className='item-separator'>
                     {/* Perioada proiectului */}
                     <div>
-                        <label>Period:</label>
+                        <label>PERIOD</label>
                     </div>
                     <div>
                         <select name="period" value={projectData.period} onChange={handleInputChange}>
@@ -165,7 +165,7 @@ export default function CreateNewProject() {
                 <div className='item-separator'>
                     {/* Data de start */}
                     <div>
-                        <label>Start Date:</label>
+                        <label>START DATE</label>
                     </div>
                     <div>
                         <input type="date" name="startDate" value={projectData.startDate} onChange={handleInputChange} />
@@ -175,7 +175,7 @@ export default function CreateNewProject() {
                     <div className='item-separator'>
                         {/* Data limită */}
                         <div>
-                            <label>Deadline:</label>
+                            <label>DEADLINE</label>
                         </div>
                         <div>
                             <input type="date" name="deadlineDate" value={projectData.deadlineDate} onChange={handleInputChange} />
@@ -185,7 +185,7 @@ export default function CreateNewProject() {
                 <div className='item-separator'>
                     {/* Statusul proiectului */}
                     <div>
-                        <label>Status:</label>
+                        <label>STATUS</label>
                     </div>
                     <div>
                         <select name="status" value={projectData.status} onChange={handleInputChange}>
@@ -197,7 +197,7 @@ export default function CreateNewProject() {
                 <div className='item-separator'>
                     {/* Descrierea generală */}
                     <div>
-                        <label>General Description:</label>
+                        <label>GENERAL DESCRIPTION</label>
                     </div>
                     <div>
                         <textarea name="generalDescription" value={projectData.generalDescription} onChange={handleInputChange}></textarea>
@@ -205,32 +205,38 @@ export default function CreateNewProject() {
                 </div>
                 <div className='item-separator'>
                     {/* Tehnologiile utilizate */}
-                    <label>Used technologies:</label>
-                    <input type="text" name="technologyStack" value={projectData.technologyStack} onChange={handleInputChange} />
+                    <div>
+                        <label>USED TECHNOLOGIES</label>
+                    </div>
+                    <div>
+                        <input type="text" name="technologyStack" value={projectData.technologyStack} onChange={handleInputChange} />
+                    </div>
                 </div>
                 <div className='item-separator'>
                     {/* Selector pentru selecția rolurilor de echipă */}
                     <div>
-                        <label>Team Role:</label>
+                        <label>TEAM ROLE</label>
                     </div>
-                    <div></div>
-                    <select value={projectData.selectedRole} onChange={handleTeamRoleSelect}>
-                        <option value="">Select team role</option>
-                        {roles.map((role, index) => (
-                            <option key={index} value={role.name}>{role.name}</option>
-                        ))}
-                    </select>
+                    <div>
+                        <select value={projectData.selectedRole} onChange={handleTeamRoleSelect}>
+                            <option value="">Select team role</option>
+                            {roles.map((role, index) => (
+                                <option key={index} value={role.name}>{role.name}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
                 {/* Afișăm input-ul pentru numărul de membri doar dacă a fost selectat un rol */}
-                {projectData.selectedRole && <div className='item-separator'>
+                {projectData.selectedRole && <div className='add-roles-separator'>
                 
                     <div>
-                        <label>Members number</label>
-                        <input type="number" min="1" value={projectData.selectedRoleMembers} onChange={handleMembersChange} />
+                        <label>MEMBERS NUMBER</label>
+                        <input className='members-number' type="number" min="1" value={projectData.selectedRoleMembers} onChange={handleMembersChange} />
+                        <button onClick={addTeamRole}>ADD ROLE</button>
                     </div>
                 
                 
-                    <button onClick={addTeamRole}>Add Role</button>
+                    
                 </div>}
                 {/* Butonul pentru crearea proiectului */}
                 <div className='button-separator'>

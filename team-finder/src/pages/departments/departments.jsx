@@ -96,7 +96,7 @@ export default function Departments() {
                   color="success"
                   onClick={() => setIsClickedCreate(!isClickedCreate)}
                 >
-                  CREATE_SKILLS 
+                  CREATE SKILLS 
                 </Button>
               </Link>
               

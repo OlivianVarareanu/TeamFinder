@@ -49,7 +49,7 @@ export default function CreateProject() {
         
           <Link to="/projects/view" variant="contained">
             <div className="view-projects">
-              <Button variant="contained">View Your Projects</Button>
+              <Button variant="contained">VIEW YOUR PROJECTS</Button>
             </div> 
           </Link>
 
@@ -67,7 +67,7 @@ export default function CreateProject() {
         
           <Link to="/projects/view" variant="contained">
             <div className="view-projects">
-              <Button variant="contained">View Your Projects</Button>
+              <Button variant="contained">VIEW YOUR PROJECTS</Button>
             </div> 
           </Link>
       </div>

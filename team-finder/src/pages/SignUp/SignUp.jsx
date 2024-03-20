@@ -62,9 +62,7 @@ export default function SignUp() {
           if (response.data.success) {
             setIsValidToken(true);
 
-            
-            
-            console.log('e valiid');
+           
 
             console.log(response);
          
@@ -77,6 +75,7 @@ export default function SignUp() {
           }
         } catch (error) {
           console.error('Token validation error:', error);
+          alert('Invalid link');
           setIsValidToken(false);
         }
       }
@@ -92,15 +91,27 @@ export default function SignUp() {
   
 
   const signUpEmployee = async () => {
-    
+    try{
     const result = await axios.post(`${apiURL}/auth`,{ name, email, password, invitationToken });
     
-    if (result.status===200) {
-      
-      console.log('Registration successful');
-      navigate('/login');
-    } else {
+      if (result.status === 200) {
+        console.log('Registration successful');
+        alert('Account created successfully')
+        navigate('/login');
+      } 
+    }
+    catch(error)
+    {
+
       console.error('Registration failed');
+      console.log(error);
+      if (error.response.data.errors && error.response.data.errors.length > 0) {
+        error.response.data.errors.forEach(error => {
+          alert(error.msg);
+        });
+      } else {
+        alert('Unknown error occurred');
+      }
     }
   };
 
@@ -131,16 +142,24 @@ export default function SignUp() {
     const data = await result.json();
 
 
-    if (result.status===200) {
-      // Handle successful registration
+    if (result.status === 200) {
       console.log('Registration successful');
+      alert('Account created successfully')
       navigate('/login');
     } else {
       console.error('Registration failed');
+      if (data.errors && data.errors.length > 0) {
+        data.errors.forEach(error => {
+          alert(error.msg);
+        });
+      } else {
+        alert('Unknown error occurred');
+      }
     }
+    
 
     
-    console.warn("result", data);
+    console.log("rezultat", data.errors);
   };
 
   console.log('isauth',auth);

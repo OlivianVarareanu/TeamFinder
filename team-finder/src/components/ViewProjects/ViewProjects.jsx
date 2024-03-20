@@ -86,11 +86,11 @@ export default function ViewProjects() {
     try {
       const response = await api.delete(`${apiURL}/project/delete-project/${selectedProjectId}`, { withCredentials: true });
       if (response.data.success) {
-        // Actualizăm lista de proiecte filtrate după ștergerea proiectului
+       
         const updatedProjects = filteredProjects.filter(project => project._id !== selectedProjectId);
         setFilteredProjects(updatedProjects);
   
-        // Actualizăm paginarea dacă numărul total de proiecte a fost afectat
+        
         setPagination({
           ...pagination,
           totalRecords: pagination.totalRecords - 1,
@@ -104,7 +104,7 @@ export default function ViewProjects() {
     } catch (error) {
       console.log("Error deleting project:", error);
     } finally {
-      setSelectedProjectId(null); // Resetăm ID-ul proiectului selectat pentru ștergere
+      setSelectedProjectId(null); 
     }
   };
 
@@ -114,29 +114,33 @@ export default function ViewProjects() {
 
   return (
     <div>
-      {/* Filtrare după perioada proiectului */}
-      <div>
-        <label>Project Period:</label>
-        <select value={projectPeriodFilter} onChange={(e) => setProjectPeriodFilter(e.target.value)}>
-          <option value="">All</option>
-          <option value="Ongoing">Ongoing</option>
-          <option value="Fixed">Fixed</option>
-        </select>
-      </div>
-      
-      {/* Filtrare după starea proiectului */}
-      <div>
-        <label>Project Status:</label>
-        <select value={projectStatusFilter} onChange={(e) => setProjectStatusFilter(e.target.value)}>
-          <option value="">All</option>
-          <option value="Not Started">Not Started</option>
-          <option value="Starting">Starting</option>
-          {/* Adaugă alte opțiuni de status, dacă este cazul */}
-        </select>
-      </div>
 
-      {/* Butonul de aplicare a filtrelor */}
-      <button onClick={applyFilters}>Apply</button>
+      <div className="buttons-wrapper">
+
+        {/* Filtrare după perioada proiectului */}
+        <div>
+          <label>Project Period:</label>
+          <select value={projectPeriodFilter} onChange={(e) => setProjectPeriodFilter(e.target.value)}>
+            <option value="">All</option>
+            <option value="Ongoing">Ongoing</option>
+            <option value="Fixed">Fixed</option>
+          </select>
+        </div>
+        
+        {/* Filtrare după starea proiectului */}
+        <div>
+          <label>Project Status:</label>
+          <select value={projectStatusFilter} onChange={(e) => setProjectStatusFilter(e.target.value)}>
+            <option value="">All</option>
+            <option value="Not Started">Not Started</option>
+            <option value="Starting">Starting</option>
+            {/* Adaugă alte opțiuni de status, dacă este cazul */}
+          </select>
+        </div>
+
+        {/* Butonul de aplicare a filtrelor */}
+        <button onClick={applyFilters}>Apply</button>
+      </div>
 
       {/* Tabelul cu proiectele filtrate */}
       <table>
