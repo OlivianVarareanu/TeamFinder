@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import CircularIndeterminate from "../../../auth-logic/loading";
-import api from "../../../api/api";
+import CircularIndeterminate from "../../auth-logic/loading";
+import api from "../../api/api";
 import "./index.css";
 import { Link } from "react-router-dom";
-import apiURL from "../../../../apiURL";
+import apiURL from "../../../apiURL";
 import { Button } from "@mui/material";
 
-export default function UpdateDepartment() {
+export default function ShowDepartments() {
   const [auth, setAuth] = useState(false);
   const [departments, setDepartments] = useState([]);
   const [error, setError] = useState(null);
@@ -87,14 +87,14 @@ export default function UpdateDepartment() {
         <button
           onClick={handlePreviousPage}
           className="blue-button"
-          disabled={currentPage === 1} 
+          disabled={currentPage === 1} // Disable if on the first page
         >
           Previous page
         </button>
         <button
           onClick={handleNextPage}
           className="blue-button"
-          disabled={currentPage === totalPages} 
+          disabled={currentPage === totalPages} // Disable if on the last page
         >
           Next page
         </button>
@@ -103,6 +103,7 @@ export default function UpdateDepartment() {
               Back
             </Button>
           </Link>
+        
       </div>
     </div>
   );
