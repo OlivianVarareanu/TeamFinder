@@ -1,19 +1,17 @@
-import Navbar from "../../components/Navbar/Navbar";
-import "./profile.css";
-import api from "../../api/api";
-
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, TextField, Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import profileIcon from "../../assets/profile-icon.png";
 import Autocomplete from "@mui/material/Autocomplete";
 import Slider from "@mui/material/Slider";
-import "./profile.css";
-import CircularIndeterminate from "../../auth-logic/loading";
+import CircularProgress from "@mui/material/CircularProgress";
+import api from "../../api/api";
 import apiURL from "../../../apiURL";
 
+import profileIcon from "../../assets/profile-icon.png";
+import CircularIndeterminate from "../../auth-logic/loading";
+
 export default function Profile() {
-  const SkillCategory = [
+  const skillCategories = [
     "Programming Languages",
     "Framework",
     "Library",
@@ -24,131 +22,24 @@ export default function Profile() {
     "DevOps",
   ];
 
-  const SkillLists = {
-    "Programming Languages": [
-      "C++",
-      "C",
-      "Javascript",
-      "Python",
-      "Rub",
-      "Swift",
-      "C#",
-      "Java",
-      "Python",
-    ],
-    Framework: [
-      "React.js",
-      "Angular",
-      "Vue.js",
-      "Django",
-      "Flask",
-      "Spring Boot",
-      "Express.js",
-      "Ruby on Rails",
-      "Laravel",
-      ".NET Core",
-    ],
-    Library: [
-      "jQuery",
-      "Axios",
-      "Redux",
-      "Axios",
-      "Lodash",
-      "Moment.js",
-      "React Router",
-      "TensorFlow.js",
-      "Pandas",
-      "NumPy",
-      "UiMaterial",
-    ],
-    "Back End": [
-      "Node.js",
-      "Express.js",
-      "Django",
-      "Flask",
-      "Spring Boot",
-      "Ruby on Rails",
-      "Laravel",
-      "ASP.NET Core",
-      "GraphQL",
-      "RESTful APIs",
-    ],
-    "Front End": [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "React.js",
-      "Angular",
-      "Vue.js",
-      "Sass",
-      "Bootstrap",
-      "Tailwind CSS",
-      "Responsive Design",
-    ],
-    "Software Engineering": [
-      "Agile",
-      "Scrum",
-      "Kanban",
-      "Test-Driven Development (TDD)",
-      "Continuous Integration (CI)",
-      "Continuous Deployment (CD)",
-      "Design Patterns",
-      "Refactoring",
-      "Code Reviews",
-      "Documentation",
-    ],
-    AI: [
-      "Machine Learning",
-      "Deep Learning",
-      "Neural Networks",
-      "Natural Language Processing (NLP)",
-      "Computer Vision",
-      "Reinforcement Learning",
-      "Genetic Algorithms",
-      "Expert Systems",
-      "Decision Trees",
-      "Bayesian Networks",
-    ],
-    DevOps: [
-      "Docker",
-      "Kubernetes",
-      "Jenkins",
-      "Ansible",
-      "Terraform",
-      "Vagrant",
-      "Prometheus",
-      "Grafana",
-      "ELK Stack (Elasticsearch, Logstash, Kibana)",
-      "GitOps",
-    ],
-  };
+  const experienceLevels = [
+    "0-6 months",
+    "6-12 months",
+    "1-2 years",
+    "2-4 years",
+    "4-7 years",
+    ">7 years",
+  ];
+
+  const levelLabels = ["Learns", "Knows", "Does", "Helps", "Teaches"];
 
   const [skillCategory, setSkillCategory] = useState("");
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [selectedLevel, setSelectedLevel] = useState(1);
   const [selectedExperience, setSelectedExperience] = useState(1);
   const [mySkills, setMySkills] = useState([]);
-
-  const handleDeleteSkill = (index) => {
-    const updatedSkills = [...mySkills];
-    updatedSkills.splice(index, 1);
-    setMySkills(updatedSkills);
-  };
-
-
-  const handleAddSkill = () => {
-    if (selectedSkill) {
-      const newSkill = {
-        skillCat: skillCategory,
-        skill: selectedSkill,
-        level: selectedLevel,
-        experience: selectedExperience,
-      };
-      console.log("New skill:", newSkill);
-      setMySkills([...mySkills, newSkill]);
-    }
-  };
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -157,16 +48,80 @@ export default function Profile() {
         const response = await api.get(`${apiURL}/user/me`, {
           withCredentials: true,
         });
-        setUser(response.data);
+        setUser(response.data.user);
       } catch (error) {
-        console.log("se incarca info");
+        console.log(error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchProfile();
   }, []);
 
+  const handleFetchSkills = async () => {
+    try {
+      const response = await api.get(`${apiURL}/user/my-skills`);
+      setMySkills(response.data.skills);
+    } catch (error) {
+      console.log(error);
+      setError("Error fetching skills");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleChange = (event, newValue) => {
+    setSelectedExperience(newValue);
+  };
+  
+  const handleLevelChange = (event, newValue) => {
+    setSelectedLevel(newValue);
+  };
+
+  useEffect(() => {
+    handleFetchSkills();
+  }, []);
+
+  const handleDeleteSkill = (index) => {
+    const updatedSkills = [...mySkills];
+    updatedSkills.splice(index, 1);
+    setMySkills(updatedSkills);
+  };
+
+  const handleAddSkill = async () => {
+    if (selectedSkill) {
+      try {
+        const response = await api.post(`${apiURL}/user/assign-skill`, {
+          skill: {
+            level: selectedLevel,
+            experience: selectedExperience,
+            _id: selectedSkill,
+          },
+        });
+        const newSkill = {
+          skill: selectedSkill,
+          level: selectedLevel,
+          experience: selectedExperience,
+        };
+        setMySkills([...mySkills, newSkill]);
+      } catch (error) {
+        console.log("Error adding skill:", error);
+        setError("Error adding skill");
+      }
+    }
+  };
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return <Typography variant="body1">{error}</Typography>;
+  }
+
   if (!user) {
-    return CircularIndeterminate();
+    return <CircularIndeterminate />;
   }
 
   return (
@@ -175,11 +130,11 @@ export default function Profile() {
         sx={{ width: 110, height: 110 }}
         className="ProfileAvatar"
         src={profileIcon}
-      ></Avatar>
+      />
       <Typography className="UsernameProfile" variant="h4">
-        Username
+        {user.name}
       </Typography>
-      <div className="GreenSmall"></div>
+      <div className="GreenSmall" />
       <Typography className="UserAvaiability" variant="h6">
         Available
       </Typography>
@@ -187,28 +142,25 @@ export default function Profile() {
         Email:
       </Typography>
       <Typography variant="h6" className="UserEmailExample">
-        Email@Example.com
+        {user.email}
       </Typography>
-      <Typography variant="h4" className="UserSkills">
-        My Skills
-      </Typography>
+      <Typography variant="h4">My Skills</Typography>
       <div className="MySkillsContainer">
         {mySkills.map((skill, index) => (
           <div key={index}>
-            <Typography variant="body1">Category: {skill.skillCat}</Typography>
-            <Typography variant="body1">Skill: {skill.skill}</Typography>
+            <Typography variant="body1">Skill: {skill.skillId.name}</Typography>
             <Typography variant="body1">Level: {skill.level}</Typography>
             <Typography variant="body1">
               Experience: {skill.experience}
             </Typography>
             <Button
-            sx={{ width: 80, height: 30 }}
-            onClick={handleDeleteSkill}
-            className="DeleteSkillBtn"
-            variant="contained"
-          >
-           Delete
-          </Button>
+              sx={{ width: 80, height: 30 }}
+              onClick={() => handleDeleteSkill(index)}
+              className="DeleteSkillBtn"
+              variant="contained"
+            >
+              Delete
+            </Button>
             <Typography variant="body1">---------------------------</Typography>
           </div>
         ))}
@@ -222,7 +174,7 @@ export default function Profile() {
           <Autocomplete
             disablePortal
             className="CatCombo"
-            options={SkillCategory}
+            options={skillCategories}
             value={skillCategory}
             onChange={(event, newValue) => setSkillCategory(newValue)}
             sx={{ width: 300 }}
@@ -253,12 +205,13 @@ export default function Profile() {
             sx={{ width: 250, height: 5 }}
             aria-label="Small steps"
             value={selectedLevel}
-            onChange={(event, newValue) => setSelectedLevel(newValue)}
+            onChange={(_, newValue) => setSelectedLevel(newValue)}
             step={1}
             marks
             min={1}
-            max={10}
+            max={levelLabels.length}
             valueLabelDisplay="auto"
+            valueLabelFormat={(value) => levelLabels[value - 1]}
           />
         </div>
         <div className="SkillSection">
@@ -266,17 +219,18 @@ export default function Profile() {
             Experience
           </Typography>
           <Slider
-            className="SliderLevel"
-            sx={{ width: 250, height: 5 }}
-            aria-label="Small steps"
-            value={selectedExperience}
-            onChange={(event, newValue) => setSelectedExperience(newValue)}
-            step={1}
-            marks
-            min={1}
-            max={10}
-            valueLabelDisplay="auto"
-          />
+  className="SliderLevel"
+  sx={{ width: 250, height: 5 }}
+  aria-label="Small steps"
+  value={selectedExperience}
+  onChange={handleChange} 
+  step={1}
+  marks
+  min={1}
+  max={experienceLevels.length}
+  valueLabelDisplay="auto"
+  valueLabelFormat={(value) => experienceLevels[value - 1]}
+/>
           <Button
             sx={{ width: 120, height: 35 }}
             onClick={handleAddSkill}

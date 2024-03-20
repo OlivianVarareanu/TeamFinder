@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import CircularIndeterminate from "../../../auth-logic/loading";
 import api from "../../../api/api";
-import { TextField, Button, Typography, Link } from "@mui/material";
+import { TextField, Button, Typography} from "@mui/material";
 import "./index.css";
 import apiURL from "../../../../apiURL";
+import { Link } from "react-router-dom";
 
 export default function DeleteDepartment() {
   const [auth, setAuth] = useState(false);
@@ -133,6 +134,11 @@ export default function DeleteDepartment() {
         >
           Next page
         </Button>
+        <Link to="/departments" style={{ textDecoration: "none" }}>
+            <Button fullWidth variant="outlined">
+              Back
+            </Button>
+          </Link>
       </div>
     </div>
   );

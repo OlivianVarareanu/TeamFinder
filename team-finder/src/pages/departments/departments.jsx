@@ -31,7 +31,8 @@ export default function Departments() {
   const [value, setValue] = useState("one");
   const [isClickedCreate, setIsClickedCreate] = useState(false);
   const [isClickedUpdate, setIsClickedUpdate] = useState(false);
-  const [isClickedDelete, setIsClickedDelete] = useState(false);
+  const [isClickedDelete, setIsClickedDelete] = useState(false); 
+  const [roles,setRoles] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -40,6 +41,7 @@ export default function Departments() {
           withCredentials: true,
         });
         setUser(response.data);
+       setRoles(response.data.user.roles);
       } catch (error) {
         console.log("Error fetching user data:", error);
       }
@@ -56,6 +58,8 @@ export default function Departments() {
   };
 
   return (
+    <div>
+    
     <Box sx={{ width: "100%" }}>
       <Tabs
         centered
@@ -73,8 +77,8 @@ export default function Departments() {
         <div className="ButtonsWrapper">
           {value === "one" && (
             <>
-              <Link to="/create">
-                <Button
+                <Link to="/create">
+              <Button
                   className="CreateBtnDep"
                   sx={{ width: 150, height: 50 }}
                   variant="contained"
@@ -84,6 +88,21 @@ export default function Departments() {
                   CREATE
                 </Button>
               </Link>
+              <Link to="/createskills">
+              <Button
+                  className="CreateBtnDep"
+                  sx={{ width: 150, height: 50 }}
+                  variant="contained"
+                  color="success"
+                  onClick={() => setIsClickedCreate(!isClickedCreate)}
+                >
+                  CREATE_SKILLS 
+                </Button>
+              </Link>
+              
+              
+              
+
               <Link to="/update">
                 <Button
                   sx={{ width: 150, height: 50 }}
@@ -104,6 +123,16 @@ export default function Departments() {
                   DELETE
                 </Button>
               </Link>
+              {/* <Link to="/skill-list">
+                <Button
+                  sx={{ width: 150, height: 50 }}
+                  variant="contained"
+                  color="error"
+                  onClick={() => setIsClickedDelete(!isClickedDelete)}
+                >
+                  View Skill List
+                </Button>
+              </Link> */}
             </>
           )}
           {value === "two" && <AssignDepManager />}
@@ -113,5 +142,6 @@ export default function Departments() {
         {value === "two" && <AssignDepManager />}
       </TabPanel>
     </Box>
+    </div>
   );
 }
